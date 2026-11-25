@@ -1,0 +1,180 @@
+@keyframes view-transition-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes view-transition-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Sequential, not a crossfade: the delay must stay equal to the out-duration, or
+   both layouts are on screen at partial opacity and ghost through each other. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation-name: view-transition-fade-out;
+  animation-duration: 240ms;
+}
+
+::view-transition-new(root) {
+  animation-name: view-transition-fade-in;
+  animation-duration: 320ms;
+  animation-delay: 240ms;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+/* Named so it is captured as its own group and excluded from `root`'s fade. The
+   footer stays unnamed: it is in normal flow, so its viewport position varies by
+   page height and a group would animate that as a slide. */
+[data-vt="navbar"] {
+  view-transition-name: navbar;
+}
+
+::view-transition-group(navbar),
+::view-transition-old(navbar),
+::view-transition-new(navbar) {
+  animation: none;
+}
+
+/* Account header and tabs stay put while switching tabs, so only the content
+   fades. Entering or leaving the account pages leaves a lone snapshot
+   (`:only-child`), which fades with the page like everything else. */
+[data-vt="account-header"] {
+  view-transition-name: account-header;
+}
+
+::view-transition-group(account-header),
+::view-transition-old(account-header),
+::view-transition-new(account-header) {
+  animation: none;
+}
+
+/* The tab strip has no background, so the old snapshot (and its active bar)
+   would show through the live new one while the indicator slides. Chrome
+   doesn't match `:not(:only-child)` here, hence hide-then-restore. */
+::view-transition-old(account-header) {
+  visibility: hidden;
+}
+
+::view-transition-old(account-header):only-child {
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(account-header):only-child {
+    animation: view-transition-fade-out 240ms ease both;
+  }
+
+  ::view-transition-new(account-header):only-child {
+    animation: view-transition-fade-in 320ms ease 240ms both;
+  }
+}
+
+/* Pagination: the page frame is identical, only the results differ, so the whole
+   page fading out and scrolling back to the hero is wrong. `data-vt-page` is set
+   by usePaginationTransition for the duration of the navigation, which is what
+   makes the name conditional: named permanently, the list would become its own
+   group during ordinary navigations too and animate away from the page. */
+/* Clear the fixed navbar, or paginating lands the heading behind it. */
+[data-vt-list-anchor] {
+  scroll-margin-top: calc(var(--spacing-navbar) + 2rem);
+}
+
+html[data-vt-page] [data-vt="pub-list"] {
+  view-transition-name: pub-list;
+}
+
+html[data-vt-page]::view-transition-old(root),
+html[data-vt-page]::view-transition-new(root) {
+  animation: none;
+}
+
+@keyframes pub-list-exit-left {
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+@keyframes pub-list-enter-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes pub-list-exit-right {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes pub-list-enter-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+/* The list is taller than the viewport and its height changes on the last page.
+   Pinning the group stops it morphing, and `object-fit: none` stops the default
+   `fill` stretching each snapshot to the other one's height. */
+html[data-vt-page]::view-transition-group(pub-list) {
+  animation: none;
+}
+
+html[data-vt-page]::view-transition-old(pub-list),
+html[data-vt-page]::view-transition-new(pub-list) {
+  height: 100%;
+  object-fit: none;
+  object-position: top left;
+}
+
+/* Sequential, like the page fade: the incoming list waits for the outgoing one to
+   clear, or two card grids overlap at partial opacity and ghost through each other. */
+html[data-vt-page="next"]::view-transition-old(pub-list) {
+  animation: 160ms ease both pub-list-exit-left;
+}
+
+html[data-vt-page="next"]::view-transition-new(pub-list) {
+  animation: 220ms ease 160ms both pub-list-enter-right;
+}
+
+html[data-vt-page="prev"]::view-transition-old(pub-list) {
+  animation: 160ms ease both pub-list-exit-right;
+}
+
+html[data-vt-page="prev"]::view-transition-new(pub-list) {
+  animation: 220ms ease 160ms both pub-list-enter-left;
+}
+
+/* React Router restores scroll with the option-less `scrollTo`/`scrollIntoView`
+   forms, which inherit the global `scroll-behavior: smooth`. Unlayered so it wins
+   over index.css's `@layer base`. `data-instant-scroll` is set briefly after a
+   hash typed in the URL bar (lib/browserHistoryEntries.ts). */
+html:active-view-transition,
+html:active-view-transition body,
+html[data-instant-scroll],
+html[data-instant-scroll] body {
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

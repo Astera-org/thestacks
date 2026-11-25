@@ -1,0 +1,140 @@
+/* Generated from Figma Variables. First mode = :root default.
+   FLOAT tokens are unitless — multiply by 1px in calc() where a length is needed. */
+
+:root {
+  --accent-aqua-blue-100: rgb(240,250,251); /* @kind color */
+  --accent-aqua-blue-200: rgb(218,240,243); /* @kind color */
+  --accent-aqua-blue-300: rgb(212,241,244); /* @kind color */
+  --accent-aqua-blue-400: rgb(193,230,235); /* @kind color */
+  --accent-aqua-blue-500: rgb(203,225,228); /* @kind color */
+  --accent-aqua-blue-600: rgb(167,206,210); /* @kind color */
+  --accent-aqua-blue-700: rgb(120,179,184); /* @kind color */
+  --accent-aqua-blue-800: rgb(87,154,160); /* @kind color */
+  --accent-aqua-blue-900: rgb(67,126,134); /* @kind color */
+  --accent-blush-pink-100: rgb(255,239,245); /* @kind color */
+  --accent-blush-pink-200: rgb(250,223,234); /* @kind color */
+  --accent-blush-pink-300: rgb(248,202,221); /* @kind color */
+  --accent-blush-pink-400: rgb(244,178,206); /* @kind color */
+  --accent-blush-pink-500: rgb(235,123,168); /* @kind color */
+  --accent-blush-pink-600: rgb(225,83,136); /* @kind color */
+  --accent-blush-pink-700: rgb(207,51,102); /* @kind color */
+  --accent-blush-pink-800: rgb(178,36,78); /* @kind color */
+  --accent-blush-pink-900: rgb(148,32,65); /* @kind color */
+  --accent-butter-yellow-100: rgb(255,249,230); /* @kind color */
+  --accent-butter-yellow-200: rgb(255,241,201); /* @kind color */
+  --accent-butter-yellow-300: rgb(255,242,178); /* @kind color */
+  --accent-butter-yellow-400: rgb(255,231,136); /* @kind color */
+  --accent-butter-yellow-500: rgb(255,209,68); /* @kind color */
+  --accent-butter-yellow-600: rgb(254,186,17); /* @kind color */
+  --accent-butter-yellow-700: rgb(238,161,4); /* @kind color */
+  --accent-butter-yellow-800: rgb(205,122,1); /* @kind color */
+  --accent-butter-yellow-900: rgb(164,85,4); /* @kind color */
+  --accent-mint-green-100: rgb(245,253,250); /* @kind color */
+  --accent-mint-green-200: rgb(241,255,251); /* @kind color */
+  --accent-mint-green-300: rgb(232,251,245); /* @kind color */
+  --accent-mint-green-400: rgb(223,244,232); /* @kind color */
+  --accent-mint-green-500: rgb(207,245,231); /* @kind color */
+  --accent-mint-green-600: rgb(184,240,219); /* @kind color */
+  --accent-mint-green-700: rgb(119,222,190); /* @kind color */
+  --accent-mint-green-800: rgb(63,200,162); /* @kind color */
+  --accent-mint-green-900: rgb(28,173,137); /* @kind color */
+  --accent-peach-100: rgb(255,249,246); /* @kind color */
+  --accent-peach-200: rgb(255,241,232); /* @kind color */
+  --accent-peach-300: rgb(255,226,209); /* @kind color */
+  --accent-peach-400: rgb(255,210,183); /* @kind color */
+  --accent-peach-500: rgb(247,185,148); /* @kind color */
+  --accent-peach-600: rgb(232,153,117); /* @kind color */
+  --accent-peach-700: rgb(226,121,85); /* @kind color */
+  --accent-peach-800: rgb(219,87,52); /* @kind color */
+  --accent-peach-900: rgb(205,65,41); /* @kind color */
+  --accent-periwinkle-100: rgb(243,239,255); /* @kind color */
+  --accent-periwinkle-200: rgb(233,226,255); /* @kind color */
+  --accent-periwinkle-300: rgb(214,216,255); /* @kind color */
+  --accent-periwinkle-400: rgb(163,166,254); /* @kind color */
+  --accent-periwinkle-500: rgb(133,127,250); /* @kind color */
+  --accent-periwinkle-600: rgb(113,96,244); /* @kind color */
+  --accent-periwinkle-700: rgb(99,67,232); /* @kind color */
+  --accent-periwinkle-800: rgb(85,53,205); /* @kind color */
+  --accent-periwinkle-900: rgb(70,46,165); /* @kind color */
+  --accent-pistachio-100: rgb(250,255,235); /* @kind color */
+  --accent-pistachio-200: rgb(233,243,214); /* @kind color */
+  --accent-pistachio-300: rgb(219,235,171); /* @kind color */
+  --accent-pistachio-400: rgb(204,226,145); /* @kind color */
+  --accent-pistachio-500: rgb(198,226,116); /* @kind color */
+  --accent-pistachio-600: rgb(166,206,57); /* @kind color */
+  --accent-pistachio-700: rgb(143,183,43); /* @kind color */
+  --accent-pistachio-800: rgb(111,146,30); /* @kind color */
+  --accent-pistachio-900: rgb(85,112,27); /* @kind color */
+  --accent-sky-blue-100: rgb(224,235,253); /* @kind color */
+  --accent-sky-blue-200: rgb(221,235,255); /* @kind color */
+  --accent-sky-blue-300: rgb(214,225,243); /* @kind color */
+  --accent-sky-blue-400: rgb(209,220,238); /* @kind color */
+  --accent-sky-blue-500: rgb(194,205,223); /* @kind color */
+  --accent-sky-blue-600: rgb(148,166,198); /* @kind color */
+  --accent-sky-blue-700: rgb(122,140,183); /* @kind color */
+  --accent-sky-blue-800: rgb(104,118,168); /* @kind color */
+  --accent-sky-blue-900: rgb(92,102,153); /* @kind color */
+  --accent-warm-sand-100: rgb(245,242,236); /* @kind color */
+  --accent-warm-sand-200: rgb(241,235,222); /* @kind color */
+  --accent-warm-sand-300: rgb(242,235,221); /* @kind color */
+  --accent-warm-sand-400: rgb(226,220,207); /* @kind color */
+  --accent-warm-sand-500: rgb(202,190,167); /* @kind color */
+  --accent-warm-sand-600: rgb(180,160,131); /* @kind color */
+  --accent-warm-sand-700: rgb(164,139,107); /* @kind color */
+  --accent-warm-sand-800: rgb(151,122,95); /* @kind color */
+  --accent-warm-sand-900: rgb(126,100,80); /* @kind color */
+  --base-carbon-100: rgb(229,228,231); /* @kind color */
+  --base-carbon-200: rgb(164,161,170); /* @kind color */
+  --base-carbon-300: rgb(116,113,122); /* @kind color */
+  --base-carbon-400: rgb(85,82,91); /* @kind color */
+  --base-carbon-500: rgb(59,57,63); /* @kind color */
+  --base-carbon-600: rgb(38,38,38); /* @kind color */
+  --base-carbon-700: rgb(34,34,34); /* @kind color */
+  --base-carbon-800: rgb(38,38,38); /* @kind color */
+  --base-carbon-900: rgb(0,0,0); /* @kind color */
+  --base-gray-100: rgb(249,249,251); /* @kind color */
+  --base-gray-200: rgb(244,243,246); /* @kind color */
+  --base-gray-300: rgb(236,235,240); /* @kind color */
+  --base-gray-400: rgb(233,233,233); /* @kind color */
+  --base-gray-500: rgb(237,237,237); /* @kind color */
+  --base-gray-600: rgb(226,227,227); /* @kind color */
+  --base-gray-700: rgb(226,226,227); /* @kind color */
+  --base-gray-800: rgb(213,213,215); /* @kind color */
+  --base-gray-900: rgb(164,164,167); /* @kind color */
+  --base-gray-blue-100: rgb(213,217,226); /* @kind color */
+  --base-gray-blue-200: rgb(176,184,201); /* @kind color */
+  --base-gray-blue-300: rgb(133,145,171); /* @kind color */
+  --base-gray-blue-400: rgb(101,115,146); /* @kind color */
+  --base-gray-blue-500: rgb(81,92,120); /* @kind color */
+  --base-gray-blue-600: rgb(66,75,98); /* @kind color */
+  --base-gray-blue-700: rgb(56,63,81); /* @kind color */
+  --base-gray-blue-800: rgb(45,51,61); /* @kind color */
+  --base-gray-blue-900: rgb(33,38,48); /* @kind color */
+  --base-off-white-off-white: rgb(247,247,247); /* @kind color */
+  --base-off-white-white: rgb(255,255,255); /* @kind color */
+  --semantic-error-100: rgb(253,236,234); /* @kind color */
+  --semantic-error-500: rgb(244,67,54); /* @kind color */
+  --semantic-error-900: rgb(172,13,13); /* @kind color */
+  --semantic-info-100: rgb(227,242,253); /* @kind color */
+  --semantic-info-500: rgb(33,150,243); /* @kind color */
+  --semantic-info-900: rgb(13,78,152); /* @kind color */
+  --semantic-success-100: rgb(230,244,234); /* @kind color */
+  --semantic-success-500: rgb(76,175,80); /* @kind color */
+  --semantic-success-900: rgb(46,125,50); /* @kind color */
+  --semantic-warning-100: rgb(255,244,229); /* @kind color */
+  --semantic-warning-500: rgb(255,206,70); /* @kind color */
+  --semantic-warning-900: rgb(255,152,0); /* @kind color */
+  --space-0: 0;
+  --space-12: 12;
+  --space-16: 16;
+  --space-20: 20;
+  --space-24: 24;
+  --space-28: 28;
+  --space-32: 32;
+  --space-40: 40;
+  --space-48: 48;
+  --space-4: 4;
+  --space-60: 60;
+  --space-72: 72;
+  --space-8: 8;
+}

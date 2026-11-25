@@ -1,0 +1,13 @@
+{
+  "name": "thestacks",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Astera-org/thestacks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Astera-org/thestacks/issues"
+  },
+  "packageManager": "pnpm@12.18.0"
+}

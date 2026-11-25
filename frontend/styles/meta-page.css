@@ -1,0 +1,49 @@
+/*
+ * Site meta pages (About, Terms, Privacy), scoped to `.meta-page-body`, the
+ * prose column beside their table of contents. Their content renders through
+ * the same figure components as publications, but publication.css is scoped to
+ * `#publication-body`, so the figure chrome those components need is here.
+ * Keep it in step with the matching rules in publication.css.
+ */
+
+/* Figure actions sit at the top-right of the caption wrapper, floated so the
+   caption and legend wrap around them. Hidden on mobile, where there is no
+   lightbox. */
+.meta-page-body .figure-caption-wrapper .figure-action-buttons {
+  @apply hidden;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  /* relative z-10 so the buttons paint above the in-flow legend paragraphs
+     that follow, which would otherwise swallow the clicks. */
+  .meta-page-body .figure-caption-wrapper .figure-action-buttons {
+    @apply relative z-10 float-right mt-3 mb-1 ml-3 inline-flex gap-1.5;
+  }
+}
+
+.meta-page-body .figure-action-btn.loading {
+  @apply pointer-events-none;
+  animation: pulse-opacity 0.8s ease-in-out infinite;
+}
+
+/* The "Read all" toggle of a long figure legend. */
+.meta-page-body .caption-read-all {
+  @apply text-body-20 text-fg-subtle inline-flex cursor-pointer items-center gap-1 border-none bg-transparent p-0 font-sans font-medium not-italic transition-colors duration-200;
+}
+
+.meta-page-body .caption-read-all:hover,
+.meta-page-body .caption-read-all:focus {
+  @apply text-link;
+}
+
+.meta-page-body .caption-read-all svg {
+  @apply h-1 w-2 shrink-0 transition-transform duration-200;
+}
+
+.meta-page-body .caption-read-all.expanded svg {
+  @apply rotate-180;
+}
+
+.meta-page-body .caption-collapse-wrapper {
+  @apply whitespace-nowrap;
+}

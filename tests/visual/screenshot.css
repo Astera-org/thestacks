@@ -1,0 +1,10 @@
+/* Applied only while capturing: hides fixed overlays (navbar, consent bar,
+   toaster, progress bar, publication title banner), whose state in a full-page
+   capture races with the resize. None affect layout. */
+header[data-vt="navbar"],
+#cc-main,
+#nprogress,
+[data-sonner-toaster],
+div.bg-pub-header.fixed {
+  visibility: hidden !important;
+}

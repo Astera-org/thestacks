@@ -1,0 +1,180 @@
+@theme {
+  /* Reset default TW text tokens. */
+  --text-\*: initial;
+
+  /*
+   * Length ramp from 0px to 1px across the viewport range; multiply by a
+   * px-delta number. Denominator stays unitless because Firefox does not
+   * resolve `length / length` in calc().
+   */
+  --fluid-slope: calc(
+    (100vw - var(--layout-min-w) * 1px) /
+      (var(--layout-max-w) - var(--layout-min-w))
+  );
+
+  /* Headlines (Newsreader) */
+
+  /* 44px - 72px */
+  --text-headline-80: clamp(
+    2.75rem,
+    2.75rem + (72 - 44) * var(--fluid-slope),
+    4.5rem
+  );
+  --text-headline-80--font-weight: 400;
+  --text-headline-80--line-height: 1.1;
+  --text-headline-80--letter-spacing: -0.125rem;
+
+  /* 40px - 60px */
+  --text-headline-70: clamp(
+    2.5rem,
+    2.5rem + (60 - 40) * var(--fluid-slope),
+    3.75rem
+  );
+  --text-headline-70--font-weight: 400;
+  --text-headline-70--line-height: 1.1;
+  --text-headline-70--letter-spacing: -0.125rem;
+
+  /* 36px - 56px */
+  --text-headline-60: clamp(
+    2.25rem,
+    2.25rem + (56 - 36) * var(--fluid-slope),
+    3.5rem
+  );
+  --text-headline-60--font-weight: 400;
+  --text-headline-60--line-height: 1.1;
+  --text-headline-60--letter-spacing: -0.125rem;
+
+  /* 32px - 48px */
+  --text-headline-50: clamp(2rem, 2rem + (48 - 32) * var(--fluid-slope), 3rem);
+  --text-headline-50--font-weight: 400;
+  --text-headline-50--line-height: 1.1;
+  --text-headline-50--letter-spacing: -0.125rem;
+
+  /* 28px - 40px */
+  --text-headline-40: clamp(
+    1.75rem,
+    1.75rem + (40 - 28) * var(--fluid-slope),
+    2.5rem
+  );
+  --text-headline-40--font-weight: 400;
+  --text-headline-40--line-height: 1.1;
+  --text-headline-40--letter-spacing: -0.125rem;
+
+  /* 26px - 36px */
+  --text-headline-30: clamp(
+    1.625rem,
+    1.625rem + (36 - 26) * var(--fluid-slope),
+    2.25rem
+  );
+  --text-headline-30--font-weight: 400;
+  --text-headline-30--line-height: 1.1;
+  --text-headline-30--letter-spacing: -0.09375rem;
+
+  /* 24px - 28px */
+  --text-headline-20: clamp(
+    1.5rem,
+    1.5rem + (28 - 24) * var(--fluid-slope),
+    1.75rem
+  );
+  --text-headline-20--font-weight: 400;
+  --text-headline-20--line-height: 1.2;
+  --text-headline-20--letter-spacing: -0.0625rem;
+
+  /* 20px - 24px */
+  --text-headline-10: clamp(
+    1.25rem,
+    1.25rem + (24 - 20) * var(--fluid-slope),
+    1.5rem
+  );
+  --text-headline-10--font-weight: 400;
+  --text-headline-10--line-height: 1.2;
+  --text-headline-10--letter-spacing: -0.0625rem;
+
+  /* Body (DM Sans) */
+
+  /* 22px - 24px */
+  --text-body-70: clamp(
+    1.375rem,
+    1.375rem + (24 - 22) * var(--fluid-slope),
+    1.5rem
+  );
+  --text-body-70--line-height: 1.5;
+  --text-body-70--letter-spacing: 0;
+
+  /* 20px - 22px */
+  --text-body-60: clamp(
+    1.25rem,
+    1.25rem + (22 - 20) * var(--fluid-slope),
+    1.375rem
+  );
+  --text-body-60--line-height: 1.3;
+  --text-body-60--letter-spacing: 0;
+
+  /* 18px - 20px */
+  --text-body-50: clamp(
+    1.125rem,
+    1.125rem + (20 - 18) * var(--fluid-slope),
+    1.25rem
+  );
+  --text-body-50--line-height: 1.6;
+  --text-body-50--letter-spacing: 0;
+
+  /* 16px - 18px */
+  --text-body-40: clamp(1rem, 1rem + (18 - 16) * var(--fluid-slope), 1.125rem);
+  --text-body-40--line-height: 1.6;
+  --text-body-40--letter-spacing: 0;
+
+  /* 16px */
+  --text-body-30: 1rem;
+  --text-body-30--line-height: 1.5;
+  --text-body-30--letter-spacing: 0;
+
+  /* 14px */
+  --text-body-20: 0.875rem;
+  --text-body-20--line-height: 1.4;
+  --text-body-20--letter-spacing: 0;
+
+  /* 12px */
+  --text-body-10: 0.75rem;
+  --text-body-10--line-height: 1.4;
+  --text-body-10--letter-spacing: 0;
+
+  /* Caption (DM Mono) */
+
+  /* 14px - 16px */
+  --text-caption-50: clamp(
+    0.875rem,
+    0.875rem + (16 - 14) * var(--fluid-slope),
+    1rem
+  );
+  --text-caption-50--line-height: 1.4;
+  --text-caption-50--letter-spacing: 0;
+
+  /* 14px */
+  --text-caption-40: 0.875rem;
+  --text-caption-40--line-height: 1.4;
+  --text-caption-40--letter-spacing: 0;
+
+  /* 13px */
+  --text-caption-30: 0.8125rem;
+  --text-caption-30--line-height: 1.4;
+  --text-caption-30--letter-spacing: 0;
+
+  /* 12px */
+  --text-caption-20: 0.75rem;
+  --text-caption-20--line-height: 1.4;
+  --text-caption-20--letter-spacing: 0;
+
+  /* 11px */
+  --text-caption-10: 0.6875rem;
+  --text-caption-10--line-height: 1.4;
+  --text-caption-10--letter-spacing: 0;
+
+  /* Logo */
+
+  /* 24px - 28px */
+  --text-logo: clamp(1.5rem, 1.5rem + (28 - 24) * var(--fluid-slope), 1.75rem);
+  --text-logo--font-weight: 300;
+  --text-logo--line-height: 0.94;
+  --text-logo--letter-spacing: -0.0625rem;
+}

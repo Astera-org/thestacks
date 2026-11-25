@@ -1,0 +1,184 @@
+/*
+ * Brand color tokens for the UI rebrand.
+ *
+ * Scales follow a 900 (darkest) → 100 (lightest) ramp.
+ * Stops marked `brand` are the primary swatch for that family per
+ * the design system spec.
+ *
+ * Exposed to Tailwind via `@theme`, so every `--color-<name>` here
+ * is available as utility classes — `bg-butter-yellow-900`,
+ * `text-aqua-blue-300`, `border-gray-blue-700`, etc.
+ */
+
+@theme {
+  /* Reset default TW colors. */
+  --color-\*: initial;
+
+  --color-unset: unset;
+  --color-initial: initial;
+  --color-inherit: inherit;
+  --color-current: currentColor;
+  --color-transparent: transparent;
+
+  /* ---------- Base ---------- */
+
+  /* Carbon */
+  --color-carbon-900: #000000;
+  --color-carbon-800: #262626; /* brand */
+  --color-carbon-700: #222222;
+  --color-carbon-600: #262626;
+  --color-carbon-500: #3b393f;
+  --color-carbon-400: #55525b;
+  --color-carbon-300: #74717a;
+  --color-carbon-200: #a4a1aa;
+  --color-carbon-100: #e5e4e7;
+
+  /* Off White / White */
+  --color-off-white: #f7f7f7;
+  --color-white: #ffffff;
+
+  /* Gray */
+  --color-gray-900: #a4a4a7;
+  --color-gray-800: #d5d5d7;
+  --color-gray-700: #e2e2e3;
+  --color-gray-600: #e2e3e3;
+  --color-gray-500: #ededed;
+  --color-gray-400: #e9e9e9;
+  --color-gray-300: #ecebf0;
+  --color-gray-200: #f4f3f6;
+  --color-gray-100: #f9f9fb;
+
+  /* Gray Blue */
+  --color-gray-blue-900: #212630;
+  --color-gray-blue-800: #2d333d;
+  --color-gray-blue-700: #383f51;
+  --color-gray-blue-600: #424b62;
+  --color-gray-blue-500: #515c78;
+  --color-gray-blue-400: #657392;
+  --color-gray-blue-300: #8591ab;
+  --color-gray-blue-200: #b0b8c9;
+  --color-gray-blue-100: #d5d9e2;
+
+  /* ---------- Accent ---------- */
+
+  /* Aqua Blue */
+  --color-aqua-blue-900: #437e86;
+  --color-aqua-blue-800: #579aa0;
+  --color-aqua-blue-700: #78b3b8;
+  --color-aqua-blue-600: #a7ced2;
+  --color-aqua-blue-500: #cbe1e4;
+  --color-aqua-blue-400: #c1e6eb;
+  --color-aqua-blue-300: #d4f1f4; /* brand */
+  --color-aqua-blue-200: #daf0f3;
+  --color-aqua-blue-100: #f0fafb;
+
+  /* Mint Green */
+  --color-mint-green-900: #1cad89;
+  --color-mint-green-800: #3fc8a2;
+  --color-mint-green-700: #77debe;
+  --color-mint-green-600: #b8f0db;
+  --color-mint-green-500: #cff5e7;
+  --color-mint-green-400: #dff4e8; /* brand */
+  --color-mint-green-300: #e8fbf5;
+  --color-mint-green-200: #f1fffb;
+  --color-mint-green-100: #f5fdfa;
+
+  /* Pistachio */
+  --color-pistachio-900: #55701b;
+  --color-pistachio-800: #6f921e;
+  --color-pistachio-700: #8fb72b;
+  --color-pistachio-600: #a6ce39;
+  --color-pistachio-500: #c6e274;
+  --color-pistachio-400: #cce291;
+  --color-pistachio-300: #dbebab;
+  --color-pistachio-200: #e9f3d6; /* brand */
+  --color-pistachio-100: #faffeb;
+
+  /* Butter Yellow */
+  --color-butter-yellow-900: #a45504;
+  --color-butter-yellow-800: #cd7a01;
+  --color-butter-yellow-700: #eea104;
+  --color-butter-yellow-600: #feba11;
+  --color-butter-yellow-500: #ffd144;
+  --color-butter-yellow-400: #ffe788;
+  --color-butter-yellow-300: #fff2b2;
+  --color-butter-yellow-200: #fff1c9; /* brand */
+  --color-butter-yellow-100: #fff9e6;
+
+  /* Warm Sand */
+  --color-warm-sand-900: #7e6450;
+  --color-warm-sand-800: #977a5f;
+  --color-warm-sand-700: #a48b6b;
+  --color-warm-sand-600: #b4a083;
+  --color-warm-sand-500: #cabea7;
+  --color-warm-sand-400: #e2dccf;
+  --color-warm-sand-300: #f2ebdd; /* brand */
+  --color-warm-sand-200: #f1ebde;
+  --color-warm-sand-100: #f5f2ec;
+
+  /* Peach */
+  --color-peach-900: #cd4129;
+  --color-peach-800: #db5734;
+  --color-peach-700: #e27955;
+  --color-peach-600: #e89975;
+  --color-peach-500: #f7b994;
+  --color-peach-400: #ffd2b7;
+  --color-peach-300: #ffe2d1; /* brand */
+  --color-peach-200: #fff1e8;
+  --color-peach-100: #fff9f6;
+
+  /* Blush Pink */
+  --color-blush-pink-900: #942041;
+  --color-blush-pink-800: #b2244e;
+  --color-blush-pink-700: #cf3366;
+  --color-blush-pink-600: #e15388;
+  --color-blush-pink-500: #eb7ba8;
+  --color-blush-pink-400: #f4b2ce;
+  --color-blush-pink-300: #f8cadd;
+  --color-blush-pink-200: #fadfea; /* brand */
+  --color-blush-pink-100: #ffeff5;
+
+  /* Periwinkle */
+  --color-periwinkle-900: #462ea5;
+  --color-periwinkle-800: #5535cd;
+  --color-periwinkle-700: #6343e8;
+  --color-periwinkle-600: #7160f4;
+  --color-periwinkle-500: #857ffa;
+  --color-periwinkle-400: #a3a6fe;
+  --color-periwinkle-300: #d6d8ff;
+  --color-periwinkle-200: #e9e2ff; /* brand */
+  --color-periwinkle-100: #f3efff;
+
+  /* Sky Blue */
+  --color-sky-blue-900: #5c6699;
+  --color-sky-blue-800: #6876a8;
+  --color-sky-blue-700: #7a8cb7;
+  --color-sky-blue-600: #94a6c6;
+  --color-sky-blue-500: #c2cddf;
+  --color-sky-blue-400: #d1dcee;
+  --color-sky-blue-300: #d6e1f3;
+  --color-sky-blue-200: #ddebff; /* brand */
+  --color-sky-blue-100: #e0ebfd;
+
+  /* ---------- Semantic ---------- */
+
+  /* Success */
+  --color-success-900: #2e7d32;
+  --color-success-800: #4caf50;
+  --color-success-700: #e6f4ea;
+
+  /* Error */
+  --color-error-900: #ac0d0d;
+  --color-error-800: #f44336;
+  --color-error-700: #fdecea;
+
+  /* Warning */
+  --color-warning-900: #ff9800;
+  --color-warning-800: #ffce46;
+  --color-warning-700: #fff4e5;
+
+  /* Info */
+  --color-info-900: #0d4e98;
+  --color-info-800: #2196f3;
+  --color-info-700: #e3f2fd;
+}

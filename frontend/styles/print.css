@@ -1,0 +1,62 @@
+/* Printing a publication from the browser. Site chrome is hidden with
+   `print:hidden` on the components themselves; these rules cover what has no
+   component of ours to put a class on, and the publication content. */
+@media print {
+  @page {
+    margin: 16mm 14mm;
+  }
+
+  #cc-main,
+  #nprogress,
+  [data-sonner-toaster] {
+    display: none !important;
+  }
+
+  /* A printed page is narrower than the 48rem breakpoint, so the mobile rule
+     sizing tables to their content (to scroll sideways) would clip them. */
+  .prose table:not(:has(img)) {
+    min-width: 0;
+  }
+
+  .prose .table-scroll-wrapper {
+    overflow: visible;
+  }
+
+  /* Paper can't be expanded, so collapsed `:::details` print open. */
+  .prose details::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+
+  /* Their content prints without `[open]` being set, so the chevron would
+     still point closed; turn it to match, as on screen when opened. */
+  .prose details > summary > :is(p, h1, h2, h3, h4, h5, h6):first-child::before,
+  .prose
+    details
+    > summary:not(:has(> :is(p, h1, h2, h3, h4, h5, h6):first-child))::before {
+    transform: rotate(45deg);
+  }
+
+  /* Truncated figure legends print in full: the hidden rest shows, and the
+     ellipsis copy and the Read all / Collapse toggles go. */
+  #publication-body
+    .figure-legend
+    :is(.legend-cut, .caption-read-all, .caption-collapse-wrapper) {
+    display: none;
+  }
+
+  .figure-legend .legend-rest[hidden] {
+    display: contents;
+    content-visibility: visible;
+  }
+
+  .prose :is(h1, h2, h3, h4, h5, h6) {
+    break-after: avoid-page;
+  }
+
+  /* Tables may run across pages, a row at a time, rather than leave most of
+     a page blank. */
+  .prose :is(figure:not(:has(table)), img, tr) {
+    break-inside: avoid-page;
+  }
+}

@@ -1,0 +1,7 @@
+# https://lefthook.dev/configuration/
+pre-commit:
+  commands:
+    frontend-precommit:
+      root: frontend/
+      glob: "frontend/**"
+      run: pnpm run precommit

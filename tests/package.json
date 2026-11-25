@@ -1,0 +1,40 @@
+{
+  "name": "the-stacks-e2e-tests",
+  "version": "0.0.0",
+  "description": "End-to-end (E2E) test suite for The Stacks.",
+  "author": "Astera Institute",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "scripts": {
+    "format:check": "prettier --check .",
+    "format": "prettier --write . --log-level=warn",
+    "typecheck": "tsc --noEmit",
+    "precommit": "pnpm run format:check && pnpm run typecheck",
+    "test": "pnpm run test:isolated && pnpm run test:shared-fixture",
+    "test:isolated": "playwright test --project chromium --grep-invert '@shared-fixture|@performance|@accessibility' --workers=3",
+    "test:shared-fixture": "playwright test --project chromium --grep @shared-fixture --workers=1",
+    "test:performance": "playwright test --project chromium --grep @performance --workers=1",
+    "test:accessibility": "playwright test --project chromium --grep @accessibility",
+    "test:visual": "bash scripts/visual.sh test",
+    "test:visual:update": "bash scripts/visual.sh update",
+    "test:visual:report": "playwright show-report visual-results/report",
+    "test:all": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project chromium",
+    "test:firefox": "playwright test --project firefox",
+    "test:webkit": "playwright test --project webkit",
+    "test:msedge": "playwright test --project 'Microsoft Edge'",
+    "test:chrome": "playwright test --project 'Google Chrome'"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.2.0",
+    "dotenv": "^17.2.3",
+    "katex": "^0.16.47",
+    "playwright": "^1.60.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3"
+  }
+}

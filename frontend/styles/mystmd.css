@@ -1,0 +1,204 @@
+/* MyST publications, rendered from Raven's MyST AST by
+   app/components/mystmd. prose.css already styles the shared elements
+   (headings, figures, tables, details, info boxes, backmatter); this adds
+   what only MyST has, scoped to `.prose.mystmd`. @myst-theme/styles is not
+   imported: the brand comes from the site's own tokens. */
+
+/* Tailwind emits the utilities myst-to-react's default renderers use (cards,
+   grids, asides, proofs, exercises) only if it scans them. */
+@source "../node_modules/myst-to-react/dist";
+
+/* The colour tokens those defaults expect, mapped onto Stacks tokens. The
+   status ramps only have dark shades, so backgrounds are tints of them. */
+@theme {
+  --color-myst-text: var(--color-fg);
+  --color-myst-text-secondary: var(--color-fg-muted);
+  --color-myst-text-tertiary: var(--color-fg-subtle);
+  --color-myst-bg: var(--color-canvas);
+  --color-myst-bg-secondary: var(--color-surface-sunken);
+  --color-myst-surface: var(--color-surface);
+  --color-myst-surface-hover: var(--color-surface-sunken);
+  --color-myst-border: var(--color-border);
+  --color-myst-border-strong: var(--color-border-strong);
+  --color-myst-active: var(--color-link);
+  --color-myst-link-hover: var(--color-link);
+  --color-myst-link-underline: var(--color-border-strong);
+  --color-myst-inverse-bg: var(--color-gray-blue-900);
+  --color-myst-inverse-text: var(--color-fg-inverted);
+
+  --color-myst-info: var(--color-info-700);
+  --color-myst-info-text: var(--color-info-900);
+  --color-myst-info-bg: color-mix(in srgb, var(--color-info-700) 10%, white);
+  --color-myst-tip: var(--color-success-700);
+  --color-myst-tip-text: var(--color-success-900);
+  --color-myst-tip-bg: color-mix(in srgb, var(--color-success-700) 10%, white);
+  --color-myst-success: var(--color-success-700);
+  --color-myst-success-text: var(--color-success-900);
+  --color-myst-success-bg: color-mix(
+    in srgb,
+    var(--color-success-700) 10%,
+    white
+  );
+  --color-myst-warning: var(--color-warning-700);
+  --color-myst-warning-text: var(--color-warning-900);
+  --color-myst-warning-bg: color-mix(
+    in srgb,
+    var(--color-warning-700) 12%,
+    white
+  );
+  --color-myst-danger: var(--color-error-700);
+  --color-myst-danger-text: var(--color-error-900);
+  --color-myst-danger-bg: color-mix(in srgb, var(--color-error-700) 10%, white);
+  --color-myst-error: var(--color-error-700);
+  --color-myst-error-text: var(--color-error-900);
+  --color-myst-error-bg: color-mix(in srgb, var(--color-error-700) 10%, white);
+  --color-myst-proof: var(--color-periwinkle-700);
+  --color-myst-proof-text: var(--color-periwinkle-900);
+  --color-myst-proof-bg: var(--color-periwinkle-100);
+  --color-myst-theorem: var(--color-pistachio-700);
+  --color-myst-theorem-text: var(--color-pistachio-900);
+  --color-myst-theorem-bg: var(--color-pistachio-100);
+  --color-myst-example: var(--color-peach-700);
+  --color-myst-example-text: var(--color-peach-900);
+  --color-myst-example-bg: var(--color-peach-100);
+}
+
+/* Admonitions keep the info-box shape; the kind only tints it. Notes keep
+   the site's own info-box colour. */
+.prose.mystmd
+  .mystmd-admonition:is(
+    .admonition-tip,
+    .admonition-hint,
+    .admonition-seealso
+  ) {
+  background-color: var(--color-myst-tip-bg);
+}
+
+.prose.mystmd
+  .mystmd-admonition:is(
+    .admonition-important,
+    .admonition-attention,
+    .admonition-caution,
+    .admonition-warning
+  ) {
+  background-color: var(--color-myst-warning-bg);
+}
+
+.prose.mystmd .mystmd-admonition:is(.admonition-danger, .admonition-error) {
+  background-color: var(--color-myst-danger-bg);
+}
+
+/* A dropdown admonition is a details element, not a box. */
+.prose.mystmd details.mystmd-admonition {
+  background-color: transparent;
+}
+
+.prose.mystmd .admonition-title {
+  @apply text-caption-40 text-carbon-400 mb-3 font-mono tracking-wider uppercase;
+}
+
+/* Numbered display equations: the number in DM Mono at the right. */
+.prose.mystmd .mystmd-math {
+  @apply my-6 flex items-center gap-4;
+}
+
+.prose.mystmd .mystmd-math > div {
+  @apply min-w-0 flex-1 overflow-x-auto;
+}
+
+.prose.mystmd .mystmd-equation-number {
+  @apply text-caption-40 text-carbon-400 shrink-0 font-mono;
+}
+
+/* A heading's number, when the document turns numbering on. */
+.prose.mystmd .mystmd-heading-number {
+  @apply text-carbon-400 mr-3 tabular-nums;
+}
+
+.prose.mystmd a.cross-reference {
+  @apply text-link underline underline-offset-4;
+}
+
+.prose.mystmd .citation-error {
+  @apply text-carbon-400 text-caption-40 font-mono;
+}
+
+/* "†6", muted and not bold, so it reads apart from a citation's bold number
+   and from link-blue cross-references. */
+.prose.mystmd sup.footnote-ref button {
+  @apply hover:text-link focus-visible:outline-link text-carbon-500 cursor-pointer rounded-sm font-mono focus-visible:outline-2 focus-visible:outline-offset-1;
+}
+
+.prose.mystmd .footnote-ref-dagger {
+  @apply mr-px font-sans text-[0.85em];
+}
+
+/* The popover portals out of `.prose`, so it styles the footnote's content. */
+.footnote-popover {
+  @apply text-caption-30 max-h-[40svh] overflow-y-auto leading-snug break-words;
+}
+
+.footnote-popover p + p {
+  @apply mt-2;
+}
+
+.footnote-popover a {
+  @apply underline underline-offset-4;
+}
+
+/* A citation in a footnote: its number, styled like the badge in the text. */
+.footnote-popover-cite {
+  @apply align-super text-[0.75em] font-bold whitespace-nowrap;
+}
+
+/* The references the footnote cites, below a rule. */
+.footnote-popover-references {
+  @apply border-gray-blue-700 mt-3 border-t pt-3;
+}
+
+.prose.mystmd .mystmd-footnotes ol {
+  @apply pl-6;
+}
+
+/* Keep the back-link on the footnote's last line. */
+.prose.mystmd .mystmd-footnotes li > p:last-of-type {
+  @apply inline;
+}
+
+.prose.mystmd .footnote-backref {
+  @apply text-carbon-400 ml-2 no-underline;
+}
+
+.prose.mystmd .mystmd-code-filename {
+  @apply text-caption-40 text-carbon-400 mb-2 font-mono;
+}
+
+.prose.mystmd figure.code-figure .figure-caption {
+  @apply mt-2;
+}
+
+.prose.mystmd .mystmd-unknown {
+  @apply border-border my-4 rounded border border-dashed px-4 py-2;
+}
+
+/* Quote directives ({blockquote}, {pull-quote}, {epigraph}): the quote keeps
+   prose.css's blockquote look, with MyST's attribution caption below it. */
+.prose.mystmd figure.mystmd-quote {
+  @apply my-8;
+}
+
+.prose.mystmd figure.mystmd-quote > blockquote {
+  @apply my-0;
+}
+
+.prose.mystmd .mystmd-quote-attribution {
+  @apply text-body-20 text-fg-muted mt-3 pl-6;
+}
+
+.prose.mystmd .mystmd-quote-attribution > p {
+  @apply m-0;
+}
+
+.prose.mystmd .mystmd-quote-attribution > p::before {
+  content: "— ";
+}

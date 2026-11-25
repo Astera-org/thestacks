@@ -1,0 +1,115 @@
+#pm__title,
+#cm__title {
+  font-family: var(--font-serif);
+  font-size: 1.5em;
+}
+
+/* Both the consent banner and the preferences modal share one dark theme. */
+#cc-main {
+  --cc-font-family: var(--font-sans);
+  --cc-bg: var(--color-gray-blue-700);
+  --cc-primary-color: var(--color-white);
+  --cc-secondary-color: var(--color-warm-sand-100);
+
+  --cc-btn-primary-bg: var(--color-white);
+  --cc-btn-primary-border-color: var(--color-white);
+  --cc-btn-primary-color: var(--color-gray-blue-900);
+  --cc-btn-primary-hover-bg: var(--color-warm-sand-100);
+  --cc-btn-primary-hover-color: var(--color-gray-blue-900);
+
+  --cc-btn-secondary-bg: transparent;
+  --cc-btn-secondary-border-color: rgb(255 255 255 / 40%);
+  --cc-btn-secondary-color: var(--color-white);
+  --cc-btn-secondary-hover-bg: rgb(255 255 255 / 10%);
+  --cc-btn-secondary-hover-color: var(--color-white);
+
+  --cc-link-color: var(--cc-secondary-color);
+
+  --cc-cookie-category-block-bg: var(--color-gray-blue-600);
+  --cc-cookie-category-block-border: var(--color-gray-blue-600);
+  --cc-cookie-category-block-hover-bg: var(--color-gray-blue-500);
+  --cc-cookie-category-block-hover-border: var(--color-gray-blue-500);
+  --cc-cookie-category-expanded-block-bg: var(--color-gray-blue-600);
+  --cc-cookie-category-expanded-block-hover-bg: var(--color-gray-blue-500);
+
+  --cc-separator-border-color: var(--cc-bg);
+
+  --cc-toggle-on-bg: var(--color-white);
+  --cc-toggle-off-bg: var(--color-gray-blue-500);
+  --cc-toggle-on-knob-bg: var(--color-gray-blue-900);
+  --cc-toggle-off-knob-bg: var(--color-white);
+
+  --cc-toggle-enabled-icon-color: var(--color-white);
+  --cc-toggle-disabled-icon-color: var(--cc-bg);
+
+  --cc-toggle-readonly-bg: var(--color-gray-blue-400);
+  --cc-toggle-readonly-knob-bg: var(--color-white);
+  --cc-toggle-readonly-knob-icon-color: var(--cc-bg);
+}
+
+/* Reintroduce a floating, rounded inset for the bottom bar: the library's
+   "bar" layout is edge-to-edge full-bleed by default. */
+#cc-main .cm.cm--bar {
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1rem;
+  width: auto;
+  max-width: none;
+  border-radius: 1rem;
+}
+
+#cc-main .cm--bar .cm__body {
+  max-width: none;
+}
+
+/* The library stacks the two action buttons in a narrow vertical column for
+   "bar inline"; the design wants them side by side next to the text. */
+#cc-main .cm--bar .cm__btns {
+  max-width: none;
+}
+
+#cc-main .cm--bar .cm__btn-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+#cc-main .cm--bar.cm--flip .cm__btn-group {
+  flex-direction: row-reverse;
+}
+
+#cc-main .cm--bar .cm__btn-group .cm__btn + .cm__btn {
+  margin: 0;
+}
+
+#cc-main .pm__close-btn {
+  --cc-btn-secondary-bg: var(--cc-bg);
+  --cc-btn-secondary-border-color: var(--cc-bg);
+}
+
+/* Pill-shaped action buttons, set directly rather than via
+   --cc-btn-border-radius: that variable is shared with the preferences
+   modal's category-section chrome, which should keep its original,
+   non-rounded look. */
+#cc-main .cm__btn,
+#cc-main .pm__btn {
+  border-radius: 9999px;
+}
+
+#cc-main button {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* The "Manage preferences" link inline in the consent modal description
+   reads as body text, not as an action button. */
+#cc-main .cc-inline-link {
+  display: inline;
+  font-family: var(--font-sans);
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--cc-link-color);
+  text-decoration: underline;
+  cursor: pointer;
+}

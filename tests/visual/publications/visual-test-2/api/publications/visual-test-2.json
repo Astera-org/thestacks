@@ -1,0 +1,191 @@
+{
+  "publication": {
+    "abstract": "This doc tests handling of different kinds of tables and headers.",
+    "body": "# Simple Tables\n\n## Default Justification\n\nThe following table shows everything with default (left) justification.\n\n::::::figure{#simple-table-default-justification type=\"table\" label=\"Table 1\"}\n| Header 1 | Header 2 | Header 3 | Header 4 |\n| -------- | -------- | -------- | -------- |\n| Row 1, 1 | Row 1, 2 | Row 1, 3 | Row 1, 4 |\n| Row 2, 1 | Row 2, 2 | Row 2, 3 | Row 2, 4 |\n\n:::::figcaption\n**Table 1.** **A simple table using default justification**\n:::::\n\n::::::\n\n## Shared justification\n\nIn this section, the headers have different alignments.\n\n### Center\n\n::::::figure{#header-center-justified type=\"table\" label=\"Table 2\"}\n| Header 1 | Header 2 | Header 3 | Header 4 |\n| -------- | -------- | -------- | -------- |\n| Row 1, 1 | Row 1, 2 | Row 1, 3 | Row 1, 4 |\n| Row 2, 1 | Row 2, 2 | Row 2, 3 | Row 2, 4 |\n\n:::::figcaption\n**Table 2.** **A simple table with the header center justified**\n:::::\n\n::::::\n\n### Right\n\n::::::figure{type=\"table\"}\n| Header 1 | Header 2 | Header 3 | Header 4 |\n| -------- | -------- | -------- | -------- |\n| Row 1, 1 | Row 1, 2 | Row 1, 3 | Row 1, 4 |\n| Row 2, 1 | Row 2, 2 | Row 2, 3 | Row 2, 4 |\n::::::\n\n## Mixed justification\n\nIn this section, the headers and rows have different alignment\n\n### Mixing Headers\n\n::::::figure{type=\"table\"}\n| Center Header 1 | Right Header 2 | Left Header 3 |\n| --------------- | -------------- | ------------- |\n| Row 1, 1        | Row 1, 2       | Row 1, 3      |\n| Row 2, 1        | Row 2, 2       | Row 2, 3      |\n::::::\n\n### Mixing Everything\n\n#### Mix 1\n\n::::::figure{type=\"table\"}\n| Center Header 1 | Right Header 2  | Left Header 3  |\n| --------------- | --------------- | -------------- |\n| Center Row 1, 1 | Left Row 1, 2   | Right Row 1, 3 |\n| Right Row 2, 1  | Center Row 2, 2 | Right Row 2, 3 |\n::::::\n\n#### Mix 2\n\n::::::figure{type=\"table\"}\n| Left Header 1   | Right Header 2  | Center Header 3 |\n| --------------- | --------------- | --------------- |\n| Center Row 1, 1 | Center Row 1, 2 | Center Row 1, 3 |\n| Right Row 2, 1  | Right Row 2, 2  | Right Row 2, 3  |\n| Left Row 2, 1   | Left Row 2, 2   | Left Row 2, 3   |\n::::::\n\n## Merged Columns\n\nThe fifth row of this table show span all columns.\n\n::::::figure{#tardi-table type=\"table\" label=\"Table 3\"}\n<table class=\"c46\"><tbody><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><strong>Species</strong></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p><strong>Common name</strong></p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p><strong>Habitat source</strong></p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p><strong>Number of specimens</strong></p></td></tr><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Hypsibius dujardini</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Common water bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Pond moss</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>8e<sup>–12</sup></p></td></tr><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Echiniscus testudo</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Arctic water bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Glacial runoff</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>6</p></td></tr><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Milnesium tardigradum</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Yellow water bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Roof lichen</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>7</p></td></tr><tr class=\"c48\"><td class=\"c59\" colspan=\"4\" rowspan=\"1\"><p><strong>Special species</strong></p></td></tr><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Paramacrobiotus richtersi</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Party water bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Urban gutter</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>7</p></td></tr><tr class=\"c19\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Macrobiotus hufelandi</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Hufelandi's bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Forest moss</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>3</p></td></tr><tr class=\"c19\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Adorybiotus granulatus</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Granulated bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Desert sand</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>4</p></td></tr><tr class=\"c48\"><td class=\"c17\" colspan=\"1\" rowspan=\"1\"><p><em>Pseudechiniscus suillus</em></p></td><td class=\"c45\" colspan=\"1\" rowspan=\"1\"><p>Armored bear</p></td><td class=\"c15\" colspan=\"1\" rowspan=\"1\"><p>Mountain lichen</p></td><td class=\"c38\" colspan=\"1\" rowspan=\"1\"><p>2</p></td></tr></tbody></table>\n\n:::::figcaption\n**Table 3.** **Table with merged columns**\n:::::\n\n::::::\n\n## Merged rows\n\nThe first column spans 4, 4, 1, 1, 2 rows, respectively.\n\n::::::figure{#merged-rows-table type=\"table\" label=\"Table 4\"}\n<table class=\"c46\"><thead><tr class=\"c14\"><td class=\"c28\" colspan=\"1\" rowspan=\"1\"><p><strong>Challenge</strong></p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p><strong>Mitigation strategy</strong></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p><strong>Benefits</strong></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p><strong>Potential issues</strong></p></td></tr></thead><tbody><tr class=\"c4\"><td class=\"c28\" colspan=\"1\" rowspan=\"4\"><p>Fluorescence</p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Longer-wavelength excitation (785, 830, 1064&nbsp;nm)*</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Excites away from most electronic transitions, reducing fluorescence <a href=\"https://doi.org/10.1038/nprot.2016.036\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Loss of Raman signal (ν<sup>4</sup>&nbsp;dependence); lower detector sensitivity in the NIR</p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>UV Raman<sup>†</sup></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Excites away from most electronic transitions and adds resonance enhancement for proteins and nucleic acids <a href=\"https://doi.org/10.1002/chem.201701388\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Photodamage; specialized UV optics; narrow set of targets</p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>SERDS (shifted-excitation difference)<sup>†</sup></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Differencing two closely spaced excitations removes the background, which doesn't shift with excitation <a href=\"https://doi.org/10.1366/0003702924125122\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Two sequential acquisitions; sensitive to motion or bleaching between frames</p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Time-gated Raman<sup>†</sup></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Fast gate collects fast Raman and rejects nanosecond-lifetime fluorescence <a href=\"https://doi.org/10.1088/1361-6501/abb044\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Needs costly specialized pulsed lasers and time-resolved detectors; the short gate also rejects some of the Raman signal, so acquisitions are longer</p></td></tr><tr class=\"c4\"><td class=\"c28\" colspan=\"1\" rowspan=\"4\"><p>Weak scattering</p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>SERS*, and its tip-enhanced variant (TERS)</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Plasmonic enhancement greatly increases sensitivity, down to single molecules at best <a href=\"https://doi.org/10.1038/s43586-021-00083-6\"></a>; TERS adds nanoscale spatial resolution <a href=\"https://doi.org/10.1016/j.vibspec.2016.06.004\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Substrate and hot-spot reproducibility; quantification and assignment challenges; difficulty delivering nanostructures to the target <a href=\"https://doi.org/10.1039/D0SC00809E\"></a></p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Resonance Raman*</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Exciting into an electronic absorption strongly enhances specific chromophores such as carotenoids <a href=\"http://doi.org/10.1016/bs.mie.2022.03.068\"></a>&nbsp;and hemes&nbsp;<a href=\"https://doi.org/10.1016/j.bbapap.2025.141065\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Only resonant species are enhanced; needs matched excitation; can drive bleaching and excite fluorescence</p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Coherent Raman (CARS, SRS)*</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Coherent driving amplifies signal by orders of magnitude over spontaneous Raman, enabling fast, label-free imaging <a href=\"https://doi.org/10.1126/science.1165758\"></a>&nbsp;<a href=\"https://doi.org/10.1146/annurev.anchem.1.031207.112754\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Non-resonant background (CARS) <a href=\"https://doi.org/10.1016/j.vibspec.2024.103684\"></a>; few commercial systems, so often homebuilt and finicky to align temporally and spatially; high peak power easily burns or photodamages samples</p></td></tr><tr class=\"c4\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Stimulated Raman photothermal (SRP)</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Reads the photothermal effect of the SRS process rather than intensity loss, boosting modulation depth significantly <a href=\"https://doi.org/10.1126/sciadv.adi2181\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Early-stage; adds a probe beam and its detection</p></td></tr><tr class=\"c4\"><td class=\"c28\" colspan=\"1\" rowspan=\"1\"><p>Chemical complexity and band overlap</p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Silent region tags<sup>†</sup></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Places a sharp, specific band in the silent region, which can be used to tag molecules and track metabolism <a href=\"https://doi.org/10.1038/srep28483\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Needs a small vibrational label, so no longer strictly label-free</p></td></tr><tr class=\"c14\"><td class=\"c28\" colspan=\"1\" rowspan=\"1\"><p>Sample alteration</p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Quantum-enhanced SRS (squeezed light)</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Lowers the noise floor below the shot-noise limit, so the same signal-to-noise is reached at lower laser power, with less photodamage <a href=\"https://doi.org/10.1038/s41586-021-03528-w\"></a>&nbsp;<a href=\"https://doi.org/10.1364/OE.523956\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Specialized hardware, modest signal improvement, needs optimization across spectrum</p></td></tr><tr class=\"c42\"><td class=\"c28\" colspan=\"1\" rowspan=\"2\"><p>Constrained and variable measurement conditions</p></td><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>SORS (spatially offset Raman)<sup>†</sup></p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Collecting light offset from the illumination point preferentially samples layers beneath the surface (e.g., container) <a href=\"https://doi.org/10.1039/D0CS00855A\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>Works on powders, tablets; less ideal for many cell preps</p></td></tr><tr class=\"c42\"><td class=\"c35\" colspan=\"1\" rowspan=\"1\"><p>Optical-tweezers Raman</p></td><td class=\"c39\" colspan=\"1\" rowspan=\"1\"><p>Holds single cells/particles in physiological suspension for measurement, avoiding substrate and holder background&nbsp;<a href=\"http://doi.org/10.1007/978-1-4939-7680-5_13\"></a></p></td><td class=\"c8\" colspan=\"1\" rowspan=\"1\"><p>One cell at a time; trapping setup</p></td></tr></tbody></table>\n\n:::::figcaption\n**Table 4.** **Overview of challenges with Raman spectroscopy, mitigation strategies, and their possible benefits and issues.**\n\n* = strategies that we have implemented or explored, but would still value feedback on\n\n<sup>†</sup> = strategies we're especially interested in trying in the near future\n:::::\n\n::::::\n\n## Fixed-width Columns\n\nThe following table shows everything with default font.\n\n::::::figure{type=\"table\" label=\"Table 5\"}\n| Locus 1                                                     | Locus 2                                                     |\n| ----------------------------------------------------------- | ----------------------------------------------------------- |\n| ATGCGTACGTTAGCCTGAACGGTTACCGATCGTAGCTAGCTTGACCGATTGCAAGCTAG | CGTATCGGATCCGTAGCTAGGCTACGATCGATCGTAGCTAGGCATCGATCGTAGGCTAA |\n| TTGCATGCGTAGCTAGCGATCGTACGGCTAGCTAGCTAGGCTACGATGCTAGCTAGCGT | GGATCGTAGCTAGCTACGATCGGTACGATCGTAGCTAGGCTAACGATCGTAGCTAGCAT |\n\n:::::figcaption\n**Table 5.** **A table using variable-width fonts**\n:::::\n\n::::::\n\n::::::figure{type=\"table\" label=\"Table 6\"}\n| Locus 1                                                         | Locus 2                                                         |\n| --------------------------------------------------------------- | --------------------------------------------------------------- |\n| `ATGCGTACGTTAGCCTGAACGGTTACCGATCGTAGCTAGCTTGACCGATTGCAAGCTAG` | `CGTATCGGATCCGTAGCTAGGCTACGATCGATCGTAGCTAGGCATCGATCGTAGGCTAA` |\n| `TTGCATGCGTAGCTAGCGATCGTACGGCTAGCTAGCTAGGCTACGATGCTAGCTAGCGT` | `GGATCGTAGCTAGCTACGATCGGTACGATCGTAGCTAGGCTAACGATCGTAGCTAGCAT` |\n\n:::::figcaption\n**Table 6.** **A table using fixed-width fonts**\n:::::\n\n::::::\n\n::::::figure{type=\"table\" label=\"Table 7\"}\n| Locus 1                                                                                                      | Locus 2                                                                                                      |\n| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |\n| `ATGCGTACGT`<br/>`TAGCCTGAAC`<br/>`GGTTACCGAT`<br/>`CGTAGCTAGC`<br/>`TTGACCGATT`<br/>`GCAAGCTAG` | `CGTATCGGAT`<br/>`CCGTAGCTAG`<br/>`GCTACGATCG`<br/>`ATCGTAGCTA`<br/>`GGCATCGATC`<br/>`GTAGGCTAA` |\n| `TTGCATGCGT`<br/>`AGCTAGCGAT`<br/>`CGTACGGCTA`<br/>`GCTAGCTAGG`<br/>`CTACGATGCT`<br/>`AGCTAGCGT` | `GGATCGTAGC`<br/>`TAGCTACGAT`<br/>`CGGTACGATC`<br/>`GTAGCTAGGC`<br/>`TAACGATCGT`<br/>`AGCTAGCAT` |\n\n:::::figcaption\n**Table 7.** **Option 2**\n:::::\n\n::::::\n\n::::::figure{type=\"table\" label=\"Table 8\"}\n| Locus 1                                                                                                                                                                                                                                                                        | Locus 2                                                                                                                                                                                                                                                                        |\n| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |\n| <span class=”font-mono”>ATGCGTACGT</span><br/><span class=”font-mono”>TAGCCTGAAC</span><br/><span class=”font-mono”>GGTTACCGAT</span><br/><span class=”font-mono”>CGTAGCTAGC</span><br/><span class=”font-mono”>TTGACCGATT</span><br/><span class=”font-mono”>GCAAGCTAG</span> | <span class=”font-mono”>CGTATCGGAT</span><br/><span class=”font-mono”>CCGTAGCTAG</span><br/><span class=”font-mono”>GCTACGATCG</span><br/><span class=”font-mono”>ATCGTAGCTA</span><br/><span class=”font-mono”>GGCATCGATC</span><br/><span class=”font-mono”>GTAGGCTAA</span> |\n| <span class=”font-mono”>TTGCATGCGT</span><br/><span class=”font-mono”>AGCTAGCGAT</span><br/><span class=”font-mono”>CGTACGGCTA</span><br/><span class=”font-mono”>GCTAGCTAGG</span><br/><span class=”font-mono”>CTACGATGCT</span><br/><span class=”font-mono”>AGCTAGCGT</span> | <span class=”font-mono”>GGATCGTAGC</span><br/><span class=”font-mono”>TAGCTACGAT</span><br/><span class=”font-mono”>CGGTACGATC</span><br/><span class=”font-mono”>GTAGCTAGGC</span><br/><span class=”font-mono”>TAACGATCGT</span><br/><span class=”font-mono”>AGCTAGCAT</span> |\n\n:::::figcaption\n**Table 8.** **Option 3**\n:::::\n\n::::::\n\n",
+    "contributors": [
+      {
+        "user_id": 3,
+        "role": "Conceptualization",
+        "first_name": "Alex",
+        "last_name": "Example",
+        "avatar": null,
+        "in_byline": 1,
+        "priority": 1,
+        "affiliations": [
+          {
+            "org_id": 2,
+            "name": "Example Institute",
+            "slug": "example-institute",
+            "ror_id": null,
+            "avatar": null
+          }
+        ]
+      },
+      {
+        "user_id": 3,
+        "role": "Critical feedback",
+        "first_name": "Alex",
+        "last_name": "Example",
+        "avatar": null,
+        "in_byline": 1,
+        "priority": 1,
+        "affiliations": [
+          {
+            "org_id": 2,
+            "name": "Example Institute",
+            "slug": "example-institute",
+            "ror_id": null,
+            "avatar": null
+          }
+        ]
+      },
+      {
+        "user_id": 4,
+        "role": "Conceptualization",
+        "first_name": "Sam",
+        "last_name": "Sample",
+        "avatar": null,
+        "in_byline": 1,
+        "priority": 2,
+        "affiliations": []
+      },
+      {
+        "user_id": 4,
+        "role": "Formal analysis",
+        "first_name": "Sam",
+        "last_name": "Sample",
+        "avatar": null,
+        "in_byline": 1,
+        "priority": 2,
+        "affiliations": []
+      },
+      {
+        "user_id": 5,
+        "role": "Methodology",
+        "first_name": "Jordan",
+        "last_name": "Fixture",
+        "avatar": null,
+        "in_byline": 0,
+        "priority": 3,
+        "affiliations": []
+      }
+    ],
+    "created_at": "2026-09-01T12:00:00.000Z",
+    "doi": "10.83972/visual-test-2",
+    "version_doi": null,
+    "feedback_form_embed_src": null,
+    "id": 2,
+    "license": "CC BY",
+    "content": {
+      "format": "gdoc"
+    },
+    "linked_assets": [],
+    "mediaAssets": [],
+    "orgs": [
+      {
+        "org_id_int": 2,
+        "priority": 1,
+        "slug": "example-institute",
+        "name": "Example Institute",
+        "avatar": null
+      }
+    ],
+    "pdf_url": null,
+    "publication_ulid": "01M7KDGT15KYK0Y3BY7C4D4SW0",
+    "publisher": "The Stacks",
+    "references": [
+      {
+        "url": "https://doi.org/10.1038/nprot.2016.036",
+        "text": "Butler HJ, Ashton L, Bird B, Cinque G, Curtis K, Dorney J, Esmonde-White K, Fullwood NJ, Gardner B, Martin-Hirsch PL, Walsh MJ, McAinsh MR, Stone N, Martin FL. (2016). Using Raman spectroscopy to characterize biological materials."
+      },
+      {
+        "url": "https://doi.org/10.1002/chem.201701388",
+        "text": "Westley C, Fisk H, Xu Y, Hollywood KA, Carnell AJ, Micklefield J, Turner NJ, Goodacre R. (2017). Real‐Time Monitoring of Enzyme‐Catalysed Reactions using Deep UV Resonance Raman Spectroscopy."
+      },
+      {
+        "url": "https://doi.org/10.1366/0003702924125122",
+        "text": "Shreve AP, Cherepy NJ, Mathies RA. (1992). Effective Rejection of Fluorescence Interference in Raman Spectroscopy Using a Shifted Excitation Difference Technique."
+      },
+      {
+        "url": "https://doi.org/10.1088/1361-6501/abb044",
+        "text": "Kögler M, Heilala B. (2020). Time-gated Raman spectroscopy – a review."
+      },
+      {
+        "url": "https://doi.org/10.1038/s43586-021-00083-6",
+        "text": "Han XX, Rodriguez RS, Haynes CL, Ozaki Y, Zhao B. (2022). Surface-enhanced Raman spectroscopy."
+      },
+      {
+        "url": "https://doi.org/10.1016/j.vibspec.2016.06.004",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1039/d0sc00809e",
+        "text": ""
+      },
+      {
+        "url": "http://doi.org/10.1016/bs.mie.2022.03.068",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1016/j.bbapap.2025.141065",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1126/science.1165758",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1146/annurev.anchem.1.031207.112754",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1016/j.vibspec.2024.103684",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1126/sciadv.adi2181",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1038/srep28483",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1038/s41586-021-03528-w",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1364/oe.523956",
+        "text": ""
+      },
+      {
+        "url": "https://doi.org/10.1039/d0cs00855a",
+        "text": ""
+      },
+      {
+        "url": "http://doi.org/10.1007/978-1-4939-7680-5_13",
+        "text": ""
+      }
+    ],
+    "slug": "visual-test-2",
+    "social_posts_count": null,
+    "social_posts_embed_src": null,
+    "state": "PUBLISHED",
+    "subtitle": "Several different kinds of tables and headers.",
+    "tags": [
+      "Informative failure"
+    ],
+    "title": "Table and Header Test",
+    "version_desc": null,
+    "version_number": 1,
+    "versions": [
+      {
+        "id": 2,
+        "version_number": 1,
+        "version_desc": null,
+        "doi": null,
+        "created_at": "2026-09-01T12:00:00.000Z"
+      }
+    ]
+  }
+}

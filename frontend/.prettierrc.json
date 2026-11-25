@@ -1,0 +1,21 @@
+{
+  "trailingComma": "none",
+  "bracketSameLine": false,
+  "plugins": [
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "app/pages/publications/\\[slug\\]/change/**/*.tsx",
+        "app/pages/publications/\\[slug\\]/change/**/*.ts",
+        "app/hooks/use-edit-publication/**/*.ts",
+        "app/hooks/useEditPublication*"
+      ],
+      "options": {
+        "trailingComma": "es5"
+      }
+    }
+  ]
+}

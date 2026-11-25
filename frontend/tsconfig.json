@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "The Stacks",
+  "compilerOptions": {
+    /* Language and environment */
+    "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "ES2020", "ES2022.Error"],
+
+    /* Module resolution */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./app/*"],
+      "@test/*": ["./test/*"],
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Strictness */
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "useDefineForClassFields": true,
+
+    /* JSX / React */
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+
+    /* Output control */
+    "noEmit": true,
+    "isolatedModules": true,
+
+    /* Misc */
+    "skipLibCheck": true,
+    "types": ["vite/client"]
+  },
+  "include": ["**/*", "vite.config.ts", ".react-router/types/**/*"],
+  "exclude": ["dist", "node_modules"]
+}

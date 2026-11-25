@@ -1,0 +1,44 @@
+name: Visual regression
+
+# No branch filter, so stacked PRs (based on another feature branch) run it too.
+on:
+  pull_request:
+    paths:
+      - "frontend/**"
+      - "core/**"
+      - "tests/visual/**"
+      - "tests/scripts/visual.sh"
+      - "tests/playwright.visual.config.ts"
+      - "tests/package.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/visual-regression.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      # pnpm install, the frontend build and Playwright all run inside the pinned
+      # container, so the runner only needs bash and Docker.
+      - name: Run visual regression suite
+        run: bash tests/scripts/visual.sh test
+
+      # The HTML report holds the expected, actual and diff images and traces.
+      - name: Upload visual results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-results
+          path: tests/visual-results/
+          retention-days: 14

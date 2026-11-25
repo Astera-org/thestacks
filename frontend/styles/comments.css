@@ -1,0 +1,241 @@
+/*
+ * This file contains prose styles for comments.
+ */
+
+/* Prevent margin-collapse: the first <p> created by ProseMirror on focus
+   has margin-top from .comment-body p, which would otherwise collapse through
+   the .tiptap div and shift the editor wrapper down. */
+.comment-body .tiptap {
+  @apply flow-root;
+}
+
+/* Text. */
+.comment-body p {
+  @apply text-body-30 text-fg-strong my-1 break-words md:my-1.5;
+}
+
+.comment-body div :last-child {
+  @apply mb-1.5;
+}
+
+/* Lists. */
+.comment-body ul,
+.comment-body ol {
+  @apply text-body-30 marker:text-fg mt-2 mb-1 list-outside pl-5;
+}
+
+.comment-body ul {
+  @apply list-disc;
+}
+
+.comment-body ol {
+  @apply list-decimal;
+}
+
+.comment-body li {
+  @apply mb-1 ml-3;
+}
+
+.comment-body li p {
+  @apply px-0;
+}
+
+/* Top-level list items. */
+.comment-body li {
+  @apply mb-2 ml-3 md:ml-12;
+}
+
+/* List items with one or more levels of nesting. */
+.comment-body li li {
+  @apply ml-5;
+}
+
+/* For unordered lists, alternate between circle and disc for each level of nesting. */
+/* Level 1. */
+.comment-body ul > li > ul > li {
+  @apply list-[circle];
+}
+
+/* Level 2. */
+.comment-body ul > li > ul > li > ul > li {
+  @apply list-disc;
+}
+
+/* Level 3. */
+.comment-body ul > li > ul > li > ul > li > ul > li {
+  @apply list-[circle];
+}
+
+/* For ordered lists, alternate between lower-alpha and lower-roman for each level of nesting. */
+/* Level 1. */
+.comment-body ol > li > ol > li {
+  @apply list-[lower-alpha];
+}
+
+/* Level 2. */
+.comment-body ol > li > ol > li > ol > li {
+  @apply list-[lower-roman];
+}
+
+/* Level 3. */
+.comment-body ol > li > ol > li > ol > li > ol > li {
+  @apply list-[lower-alpha];
+}
+
+/* Links. */
+.comment-body a {
+  @apply text-carbon-700 cursor-pointer underline underline-offset-4;
+  /* Keep the underline continuous through descenders/italics. */
+  text-decoration-skip-ink: none;
+}
+
+.comment-body a:hover {
+  @apply text-periwinkle-900;
+}
+
+.comment-body a.ref-link {
+  @apply text-body-10! font-bold no-underline;
+}
+
+.comment-body span.ref-link-wrapper {
+  @apply text-body-10! inline-flex items-start font-bold;
+}
+
+/* Blockquotes. */
+.comment-body blockquote {
+  @apply text-body-30 text-fg-muted border-carbon-400 my-2 border-l-2 pl-3 italic md:my-3 md:pl-4;
+}
+
+.comment-body blockquote p {
+  @apply m-0 text-inherit;
+}
+
+/* Code blocks. */
+.comment-body pre {
+  @apply bg-surface-sunken text-fg text-body-30 pt-0 pb-6 font-mono font-light text-wrap;
+}
+
+/* Exception: `pre` tags containing math should have transparent background. */
+.comment-body pre:has(.katex-display),
+.comment-body pre.math,
+.comment-body code.language-math {
+  @apply bg-transparent! p-0!;
+  font-family: inherit !important;
+}
+
+/* Match KaTeX to the surrounding comment text the way the publication body
+   does (see prose.css): KaTeX's 1.21em default otherwise renders math ~21%
+   larger than the text around it. Inline math scales to the text it sits in
+   (1em) and display math is pinned to the comment body size, so an inline
+   "B" matches a "B" in the equation below and both match the comment text. */
+.comment-body .katex {
+  font-size: 1em;
+}
+
+.comment-body .katex-display {
+  font-size: var(--text-body-30);
+  /* Let wide equations scroll horizontally instead of overflowing. */
+  @apply overflow-x-auto overflow-y-hidden;
+  /* `rehype-katex` adds fractional heights, so the y gets clipped by the
+     overflow-y-hidden. We don't want it to scroll either, so we add a padding
+     on the top and bottom, so that 1:1 DPI screens don't accidentally clip */
+  @apply py-px;
+}
+
+/* Inline code. */
+.comment-body code:not(pre code) {
+  @apply text-body-20 md:text-body-30 bg-gray-200 px-1 py-0.5 font-mono font-light whitespace-normal md:px-1.5 md:py-1;
+}
+
+/* Without this, tw surrounds code with `` */
+.comment-body code::before,
+.comment-body code::after {
+  @apply content-none;
+}
+
+/* Images. Default to medium (50%) when no explicit size is set. */
+.comment-body img {
+  @apply h-auto max-w-[50%] cursor-pointer;
+}
+
+.comment-body img[data-size="small"] {
+  @apply max-w-[25%];
+}
+
+.comment-body img[data-size="large"] {
+  @apply max-w-[75%];
+}
+
+/* Offset for scroll-to-comment so the target clears the sticky header. */
+[data-comment-id] {
+  @apply scroll-mt-35;
+}
+
+/* Deep-linked comment plate. Sits behind the card so the emphasis costs no
+   layout shift, and hugs it horizontally: cards sit flush against the
+   collapsible section's clipping box, so a sideways bleed loses its corners. */
+.linked-comment {
+  @apply relative isolate;
+}
+
+.linked-comment::before {
+  @apply bg-highlight/40 pointer-events-none absolute inset-x-0 -inset-y-3 -z-10 rounded-xl;
+  content: "";
+  animation: linked-comment-flash 3s var(--ease-out) forwards;
+}
+
+@keyframes linked-comment-flash {
+  0% {
+    opacity: 0;
+  }
+
+  10%,
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Without the animation the plate holds at full opacity. */
+@media (prefers-reduced-motion: reduce) {
+  .linked-comment::before {
+    animation: none;
+  }
+}
+
+/* Inline comment anchor text. */
+.inline-comment-anchor-text {
+  @apply text-body-40 mb-4 block w-full cursor-pointer rounded-xl bg-gray-200 p-5 text-left font-serif font-normal;
+}
+
+.inline-comment-anchor-text code {
+  @apply text-body-30 font-mono font-light;
+}
+
+/* Let KaTeX manage its own line-height inside anchor previews so that
+   vlist positioning and stacked subscripts render correctly. Scale math to
+   1em so it tracks the quote text (text-body-40) instead of KaTeX's larger
+   1.21em default. */
+.inline-comment-anchor-text .katex {
+  @apply leading-[1.2];
+  font-size: 1em;
+}
+
+/* Display math in anchor previews: render as block within the div wrapper,
+   centered, with no extra margin, at the quote text size. Wide equations
+   scroll horizontally instead of overflowing the preview box. */
+.inline-comment-anchor-text .katex-display {
+  @apply m-0 block overflow-x-auto overflow-y-hidden text-center;
+  font-size: var(--text-body-40);
+  /* `rehype-katex` adds fractional heights, so the y gets clipped by the
+     overflow-y-hidden. We don't want it to scroll either, so we add a padding
+     on the top and bottom, so that 1:1 DPI screens don't accidentally clip */
+  @apply py-px;
+}
+
+.comment-thread-replies {
+  @apply ml-5 md:ml-10;
+}

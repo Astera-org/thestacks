@@ -1,0 +1,5 @@
+/* The Stacks — global stylesheet entry point.
+   Chains to the canonical Figma tokens + semantic layer.
+   (Kept as the compiler-recognized root CSS; colors_and_type.css imports the
+   raw tokens/fig-tokens.css, so this single import pulls in the whole system.) */
+@import './colors_and_type.css';

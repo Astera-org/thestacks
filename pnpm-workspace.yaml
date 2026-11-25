@@ -1,0 +1,27 @@
+packages:
+  - "core/*"
+  - "frontend"
+  - "scripts"
+  - "tests"
+
+# Only these dependencies may run install scripts. lefthook's postinstall is
+# redundant: the frontend's prepare script installs the git hooks.
+allowBuilds:
+  esbuild: true
+  fsevents: true
+  lefthook: false
+
+overrides:
+  react: ^19.3.0
+  react-dom: ^19.3.0
+  react-is: ^19.3.0
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
+
+peerDependencyRules:
+  allowedVersions:
+    # @vercel/react-router still declares peers of @react-router/dev and
+    # @react-router/node v7, but the frontend is on v8; this is safe to mask.
+    # Track upstream fix: https://github.com/vercel/vercel/issues/16730
+    "@vercel/react-router>@react-router/dev": "8"
+    "@vercel/react-router>@react-router/node": "8"

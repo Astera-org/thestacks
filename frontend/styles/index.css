@@ -1,0 +1,349 @@
+@import "tailwindcss";
+@import "highlight.js/styles/stackoverflow-light.css" layer(base);
+@import "vanilla-cookieconsent/dist/cookieconsent.css" layer(base);
+@import "sonner/dist/styles.css" layer(base);
+
+@import "./colors.css";
+@import "./semantic.css";
+@import "./view-transitions.css";
+@import "./nprogress.css";
+@import "./typography.css";
+@import "./prose.css";
+@import "./publication.css";
+@import "./meta-page.css";
+@import "./mystmd.css";
+@import "./comments.css";
+@import "./cookie-consent.css";
+@import "./print.css";
+
+@import "tw-animate-css";
+
+/* Hover-only reveals stay visible on touch screens, whatever their width. */
+@custom-variant can-hover (@media (hover: hover));
+
+/*test deploy*/
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentcolor);
+  }
+
+  /* Global so every anchor jump gets it; suppressed during page transitions in
+     view-transitions.css so scroll restoration stays instant. */
+  html,
+  body {
+    height: 100%;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+  }
+
+  /* KaTeX positions its hidden MathML copy absolutely; without a containing
+     block here it escapes the scrollers around wide math and widens the page. */
+  .katex {
+    position: relative;
+  }
+
+  /* Base typography and layout. */
+  body {
+    font-family: var(--font-sans);
+    line-height: var(--lh-body);
+    min-height: 100svh;
+    background-color: var(--color-canvas);
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  /* Offset scroll position for anchor links to account for sticky header. */
+  :target {
+    scroll-margin-top: 140px;
+  }
+
+  /* Also apply to all headings for better scroll positioning. */
+  h1[id],
+  h2[id],
+  h3[id],
+  h4[id],
+  h5[id],
+  h6[id] {
+    scroll-margin-top: 140px;
+  }
+
+  /* Balance line breaks so headings wrap into even, readable columns. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-balance;
+  }
+
+  img,
+  picture,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  audio::-webkit-media-controls-panel {
+    background-color: var(--color-periwinkle-100);
+  }
+
+  audio::-webkit-media-controls-toggle-closed-captions-button {
+    background-color: var(--color-periwinkle-100);
+  }
+
+  :where(button) {
+    @apply cursor-pointer text-left;
+  }
+
+  /*
+   * Keyboard-only focus ring. `:focus-visible` is heuristic, so browsers can
+   * still paint a ring on pointer focus (text fields per spec, Safari on
+   * buttons in some cases). `KeyboardFocusMode` sets `data-keyboard-focus` on
+   * <html> after Tab and clears it on pointerdown, so the ring only shows for
+   * keyboard users. `:where()` keeps specificity low so utilities can override.
+   */
+  :where(
+    a[href],
+    button,
+    select,
+    summary,
+    input:not([type="hidden"]),
+    textarea,
+    [tabindex]:not([tabindex="-1"]),
+    [contenteditable="true"]:not([contenteditable="false"])
+  ):focus {
+    @apply outline-hidden;
+  }
+
+  html[data-keyboard-focus]
+    :where(
+      a[href],
+      button,
+      select,
+      summary,
+      input:not([type="hidden"]),
+      textarea,
+      [tabindex]:not([tabindex="-1"]),
+      [contenteditable="true"]:not([contenteditable="false"])
+    ):focus {
+    @apply ring-focus ring-2;
+  }
+}
+
+@theme {
+  /* Shadows with modern depth. */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 6px 16px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Card / row hover feedback: raised on hover, settled on press. Tinted with
+     gray-blue-900 so the shadow reads warm against the brand surfaces. */
+  --shadow-lift: 0 3px 10px rgb(33 38 48 / 0.1);
+  --shadow-press: 0 1px 3px rgb(33 38 48 / 0.07);
+
+  --inset-shadow-lg: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  /*
+    Core layout dimensions for site boundaries and viewport constraints.
+    These variables define both content width parameters and function as
+    reference values for responsive design calculations. They should align
+    with the minimum and maximum content width requirements.
+  */
+  --layout-min-w: 375;
+  --layout-max-w: 1440;
+  --breakpoint-container: calc(var(--layout-max-w) * 1px);
+
+  /* Typography. */
+  --font-sans:
+    "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-mono:
+    "DM Mono", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+  --lh-tight: 1.2;
+  --lh-body: 1.6;
+  --lh-relaxed: 1.8;
+
+  /* Widths. */
+  --spacing-container: calc(var(--layout-max-w) * 1px);
+
+  /* Heights. */
+  --spacing-navbar: 3.2rem;
+
+  /* Animations. These override Tailwind's built-in easings, which are too weak.
+     `--default-transition-*` back the bare `transition-*` utilities. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --default-transition-timing-function: var(--ease-out);
+  --default-transition-duration: 160ms;
+
+  --duration-press: 160ms;
+  --duration-tooltip: 150ms;
+  --duration-popover: 200ms;
+  --duration-modal: 250ms;
+  --duration-drawer: 400ms;
+
+  /* Maximum width for figures. */
+  --figure-max-w-px: 777px;
+  --figure-max-w: max(100cqi, var(--figure-max-w-px));
+
+  /* Pulse dot animation */
+  --animate-pub-dot: pubDot 1.2s ease-in-out infinite;
+}
+
+:root {
+  @variant md {
+    --spacing-navbar: 4rem;
+  }
+}
+
+@utility scrollbar-hide {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Visually hide the native scrollbar. Pair with a scroll-fade so the scroll
+   affordance is still conveyed. */
+@utility scrollbar-invisible {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+/* Title rule that wipes in from the left. `text-decoration` can't animate its
+   width, so the rule is a background gradient grown from 0 to 100%.
+   `box-decoration-break: clone` gives every line of a wrapped title its own
+   rule instead of one rule spanning the whole inline box. Markdown titles
+   render the text inside a <p>, which has to go inline for the rule to hug the
+   text rather than the full column. Pair with `underline-wipe-full`, usually
+   behind `group-hover:`. */
+@utility underline-wipe {
+  & p {
+    display: inline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    background-image: linear-gradient(to right, currentcolor 0 100%);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition: background-size 200ms var(--ease-out);
+  }
+
+  /* The rule still marks the hovered card, it just stops travelling. */
+  @media (prefers-reduced-motion: reduce) {
+    & p {
+      transition: none;
+    }
+  }
+}
+
+@utility underline-wipe-full {
+  & p {
+    background-size: 100% 1px;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pubDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pubDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+/* Skeleton pulse animation */
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}

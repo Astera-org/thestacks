@@ -1,0 +1,298 @@
+/* ==========================================================================
+   The Stacks — Design Tokens & Type
+   Reconciled 1:1 with the canonical Figma "Design System" page (node 1396:5122).
+
+   Raw token values live in tokens/fig-tokens.css (materialized directly from
+   Figma Variables: 122 colors + 13 spacing). This file imports them and layers
+   on the semantic aliases, type scale, and utility classes the product uses.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+
+/* Canonical Figma Variables — the source of truth for every color value. */
+@import './tokens/fig-tokens.css';
+
+:root {
+  /* ---------- BASE NEUTRAL ALIASES (hex, for convenience) -------------- */
+  /* Carbon — body text + ink. 800 (#262626) is the text brand step. */
+  --carbon-900: #000000;
+  --carbon-800: #262626; /* brand text */
+  --carbon-700: #222222;
+  --carbon-600: #262626;
+  --carbon-500: #3B393F;
+  --carbon-400: #55525B;
+  --carbon-300: #74717A;
+  --carbon-200: #A4A1AA;
+  --carbon-100: #E5E4E7;
+
+  --off-white: #F7F7F7;
+  --white: #FFFFFF;
+
+  /* Gray — UI surfaces & dividers */
+  --gray-900: #A4A4A7;
+  --gray-800: #D5D5D7;
+  --gray-700: #E2E2E3;
+  --gray-600: #E2E3E3;
+  --gray-500: #EDEDED;
+  --gray-400: #E9E9E9;
+  --gray-300: #ECEBF0;
+  --gray-200: #F4F3F6;
+  --gray-100: #F9F9FB;
+
+  /* Gray Blue — the primary dark for UI chrome (buttons, footer, avatars).
+     900 (#212630) is THE Stacks dark; distinct from Carbon text. */
+  --grayblue-900: #212630; /* primary UI dark */
+  --grayblue-800: #2D333D;
+  --grayblue-700: #383F51; /* footer */
+  --grayblue-600: #424B62;
+  --grayblue-500: #515C78;
+  --grayblue-400: #657392;
+  --grayblue-300: #8591AB;
+  --grayblue-200: #B0B8C9;
+  --grayblue-100: #D5D9E2;
+
+  /* ---------- ACCENT BRAND STEPS (the card-tint default per family) ---- */
+  /* The full 9-step scales live in tokens/fig-tokens.css as
+     --accent-<family>-<100..900>. These are the canonical "brand" steps. */
+  --aqua-brand: var(--accent-aqua-blue-300);       /* #D4F1F4 */
+  --mint-brand: var(--accent-mint-green-400);      /* #DFF4E8 */
+  --pistachio-brand: var(--accent-pistachio-200);  /* #E9F3D6 */
+  --butter-brand: var(--accent-butter-yellow-200); /* #FFF1C9 */
+  --warmsand-brand: var(--accent-warm-sand-300);   /* #F2EBDD */
+  --peach-brand: var(--accent-peach-300);          /* #FFE2D1 */
+  --blush-brand: var(--accent-blush-pink-200);     /* #FADFEA */
+  --periwinkle-brand: var(--accent-periwinkle-200);/* #E9E2FF */
+  --sky-brand: var(--accent-sky-blue-200);         /* #DDEBFF */
+
+  /* ---------- GRADIENTS (expressive accent meshes) --------------------- */
+  /* The brand's expressive surface treatment: soft multi-point meshes that
+     blend the pastel accents into one another, finished with a fine film
+     grain. Use ONLY on large expressive surfaces (hero / cover / section
+     dividers / empty states) — never behind body text or on dense UI.
+     Built entirely from the accent brand steps so they stay on-palette.
+     Pair with --gradient-grain as a separate overlay layer (see .stk-mesh). */
+
+  /* Aurora — the canonical full mesh (the designer's reference): cool aqua/mint
+     top, warm peach right, lavender periwinkle/blush settling to the bottom. */
+  --gradient-aurora:
+    radial-gradient(ellipse 85% 75% at 10% 6%,  var(--aqua-brand)      0%, transparent 55%),
+    radial-gradient(ellipse 75% 65% at 90% 10%, var(--mint-brand)      0%, transparent 52%),
+    radial-gradient(ellipse 65% 60% at 16% 52%, var(--butter-brand)    0%, transparent 55%),
+    radial-gradient(ellipse 80% 75% at 94% 54%, var(--peach-brand)     0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 78% 96%, var(--blush-brand)     0%, transparent 55%),
+    radial-gradient(ellipse 95% 85% at 50% 104%, var(--periwinkle-brand) 0%, transparent 62%);
+  --gradient-aurora-base: var(--periwinkle-brand);
+
+  /* Dawn — warm linear: butter → peach → blush. */
+  --gradient-dawn: linear-gradient(135deg, var(--butter-brand) 0%, var(--peach-brand) 52%, var(--blush-brand) 100%);
+  /* Dusk — cool linear: aqua → sky → periwinkle. */
+  --gradient-dusk: linear-gradient(135deg, var(--aqua-brand) 0%, var(--sky-brand) 50%, var(--periwinkle-brand) 100%);
+  /* Meadow — fresh linear: mint → pistachio → butter. */
+  --gradient-meadow: linear-gradient(120deg, var(--mint-brand) 0%, var(--pistachio-brand) 55%, var(--butter-brand) 100%);
+
+  /* Film grain — overlay layer that gives the meshes their tactile finish.
+     Apply as a top background-image layer (multiply, ~50% opacity). */
+  --gradient-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E"); /* @kind other */
+
+
+  --success-900: #2E7D32;
+  --success-500: #4CAF50;
+  --success-100: #E6F4EA;
+
+  --error-900: #AC0D0D;
+  --error-500: #F44336;
+  --error-100: #FDECEA;
+
+  --warning-900: #FF9800;
+  --warning-500: #FFCE46;
+  --warning-100: #FFF4E5;
+
+  --info-900: #0D4E98;
+  --info-500: #2196F3;
+  --info-100: #E3F2FD;
+
+  /* ---------- SEMANTIC ROLE TOKENS ------------------------------------ */
+  --bg-app: var(--off-white);            /* #F7F7F7 page canvas */
+  --bg-surface: var(--white);            /* cards, inputs */
+  --bg-hero: var(--gray-300);            /* #ECEBF0 soft band behind page titles */
+  --bg-footer: var(--grayblue-700);      /* #383F51 dark footer */
+
+  --fg-primary: var(--grayblue-900);     /* #212630 body & heading ink — matches Figma / production */
+  --fg-secondary: rgba(33, 38, 48, 0.7);
+  --fg-muted: rgba(33, 38, 48, 0.5);
+  --fg-placeholder: var(--carbon-500);   /* #3B393F input placeholder */
+  --fg-on-dark: var(--white);
+
+  --border-subtle: var(--gray-700);      /* #E2E2E3 card outlines */
+  --border-input: var(--carbon-200);     /* #A4A1AA input border */
+  --border-hairline: rgba(33, 38, 48, 0.1);
+
+  /* Primary action = Gray Blue 900 (#212630) — NOT carbon. */
+  --btn-primary-bg: var(--grayblue-900);
+  --btn-primary-bg-hover: var(--grayblue-800);
+  --btn-primary-fg: var(--white);
+  --btn-disabled-bg: var(--gray-700);
+  --btn-disabled-fg: var(--carbon-200);
+
+  /* ---------- TYPOGRAPHY FAMILIES ------------------------------------- */
+  --font-serif: 'Newsreader', Georgia, serif;                        /* headlines */
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;      /* body, labels, long-form article reading */
+  --font-mono: 'DM Mono', ui-monospace, monospace;                   /* captions, buttons, chips, metadata */
+
+  /* ---------- TYPE SCALE (canonical Typography Scale frame) ----------- */
+  /* Headline — Newsreader Regular. Tracking -2 (≤40px), -1.5 (36), -1 (24–28). */
+  --text-headline-80: 72px;
+  --text-headline-70: 60px;
+  --text-headline-60: 56px;
+  --text-headline-50: 48px;
+  --text-headline-40: 40px;
+  --text-headline-30: 36px;
+  --text-headline-20: 28px;
+  --text-headline-10: 24px;
+  --lh-headline-80: 1.1;  /* @kind other */
+  --lh-headline-70: 1.1;  /* @kind other */
+  --lh-headline-60: 1.1;  /* @kind other */
+  --lh-headline-50: 1.1;  /* @kind other */
+  --lh-headline-40: 1.1;  /* @kind other */
+  --lh-headline-30: 1.1;  /* @kind other */
+  --lh-headline-20: 1.2;  /* @kind other */
+  --lh-headline-10: 1.2;  /* @kind other */
+  --ls-headline-80: -0.02em;  /* @kind other */
+  --ls-headline-70: -0.02em;  /* @kind other */
+  --ls-headline-60: -0.02em;  /* @kind other */
+  --ls-headline-50: -0.02em;  /* @kind other */
+  --ls-headline-40: -0.02em;  /* @kind other */
+  --ls-headline-30: -0.015em; /* @kind other */
+  --ls-headline-20: -0.01em;  /* @kind other */
+  --ls-headline-10: -0.01em;  /* @kind other */
+
+  /* Body — DM Sans. Regular / Semibold / Bold (Italic at 18). */
+  --text-body-70: 24px;
+  --text-body-60: 22px;
+  --text-body-50: 20px;
+  --text-body-40: 18px;
+  --text-body-30: 16px;
+  --text-body-20: 14px;
+  --text-body-10: 12px;
+  --lh-body-70: 1.5;  /* @kind other */
+  --lh-body-60: 1.3;  /* @kind other */
+  --lh-body-50: 1.6;  /* @kind other */
+  --lh-body-40: 1.6;  /* @kind other */
+  --lh-body-30: 1.5;  /* @kind other */
+  --lh-body-20: 1.4;  /* @kind other */
+  --lh-body-10: 1.4;  /* @kind other */
+
+  /* Caption — DM Mono. 30 is light-italic, 20 is light. */
+  --text-caption-50: 16px;
+  --text-caption-40: 14px;
+  --text-caption-30: 13px;
+  --text-caption-20: 12px;
+  --text-caption-10: 11px;
+  --lh-caption-50: 1.4;  /* @kind other */
+  --lh-caption-40: 1.4;  /* @kind other */
+  --lh-caption-30: 1.4;  /* @kind other */
+  --lh-caption-20: 1.4;  /* @kind other */
+  --lh-caption-10: 1.4;  /* @kind other */
+
+  /* Logo wordmark — DM Sans Light, 28px / 94% / -1 tracking */
+  --text-logo: 28px;
+  --lh-logo: 0.94;        /* @kind other */
+  --ls-logo: -0.01em;     /* @kind other */
+
+  /* ---------- SPACING (canonical Spacing frame) ----------------------- */
+  --space-0: 0px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-60: 60px;
+  --space-72: 72px;
+
+  /* ---------- RADII (from component frames) --------------------------- */
+  --radius-sm: 5px;     /* small chrome */
+  --radius-md: 8px;     /* inputs, "subtle"-corner buttons, swatches */
+  --radius-lg: 12px;    /* cards, search bar */
+  --radius-pill: 100px; /* "rounded"-corner buttons, chips, tabs */
+
+  /* ---------- ELEVATION ----------------------------------------------- */
+  /* The Stacks leans on borders, not shadows. Inputs/cards use 1px inset rings. */
+  --ring-input: 0 0 0 1px var(--border-input);     /* #A4A1AA */
+  --ring-card:  inset 0 0 0 1px var(--border-subtle);
+  --shadow-sm: 0 1px 3px rgba(33,38,48,0.06), 0 1px 2px rgba(33,38,48,0.04);
+  --shadow-md: 0 4px 12px rgba(33,38,48,0.08);
+  --shadow-modal: 0 20px 60px rgba(33,38,48,0.18);
+
+  /* ---------- LAYOUT --------------------------------------------------- */
+  --page-max-width: 1440px;
+  --page-gutter: 110px;
+  --content-max: 1220px;
+  --nav-height: 80px;
+}
+
+/* ---------- SEMANTIC TEXT STYLES (utility classes) ---------------------- */
+.t-display  { font-family: var(--font-serif); font-size: var(--text-headline-80); line-height: var(--lh-headline-80); letter-spacing: var(--ls-headline-80); color: var(--fg-primary); }
+.t-h1       { font-family: var(--font-serif); font-size: var(--text-headline-50); line-height: var(--lh-headline-50); letter-spacing: var(--ls-headline-50); color: var(--fg-primary); }
+.t-h2       { font-family: var(--font-serif); font-size: var(--text-headline-40); line-height: var(--lh-headline-40); letter-spacing: var(--ls-headline-40); color: var(--fg-primary); }
+.t-h3       { font-family: var(--font-serif); font-size: var(--text-headline-30); line-height: var(--lh-headline-30); letter-spacing: var(--ls-headline-30); color: var(--fg-primary); }
+.t-h4       { font-family: var(--font-serif); font-size: var(--text-headline-20); line-height: var(--lh-headline-20); letter-spacing: var(--ls-headline-20); color: var(--fg-primary); }
+.t-h5       { font-family: var(--font-serif); font-size: var(--text-headline-10); line-height: var(--lh-headline-10); letter-spacing: var(--ls-headline-10); color: var(--fg-primary); }
+.t-lead     { font-family: var(--font-sans); font-size: var(--text-body-50); line-height: var(--lh-body-50); color: var(--fg-secondary); }
+.t-body     { font-family: var(--font-sans); font-size: var(--text-body-30); line-height: var(--lh-body-30); color: var(--fg-primary); }
+.t-body-sm  { font-family: var(--font-sans); font-size: var(--text-body-20); line-height: var(--lh-body-20); color: var(--fg-primary); }
+.t-caption  { font-family: var(--font-mono); font-size: var(--text-caption-20); line-height: var(--lh-caption-20); color: var(--fg-muted); }
+.t-label    { font-family: var(--font-mono); font-size: var(--text-caption-30); line-height: var(--lh-caption-30); color: var(--fg-primary); }
+.t-reading  { font-family: var(--font-sans); font-size: var(--text-body-40); line-height: var(--lh-body-40); color: var(--fg-primary); }
+
+/* ---------- BASE ELEMENT STYLES ----------------------------------------- */
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg-app);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-30);
+  line-height: var(--lh-body-30);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4, h5 { font-family: var(--font-serif); font-weight: 400; color: var(--fg-primary); margin: 0; }
+h1 { font-size: var(--text-headline-50); line-height: var(--lh-headline-50); letter-spacing: var(--ls-headline-50); }
+h2 { font-size: var(--text-headline-40); line-height: var(--lh-headline-40); letter-spacing: var(--ls-headline-40); }
+h3 { font-size: var(--text-headline-30); line-height: var(--lh-headline-30); letter-spacing: var(--ls-headline-30); }
+h4 { font-size: var(--text-headline-20); line-height: var(--lh-headline-20); letter-spacing: var(--ls-headline-20); }
+h5 { font-size: var(--text-headline-10); line-height: var(--lh-headline-10); letter-spacing: var(--ls-headline-10); }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { opacity: 0.7; }
+
+/* ---------- GRADIENT SURFACES (utility classes) ------------------------- */
+/* .stk-mesh — the canonical aurora mesh + film grain in one class. The grain
+   sits on a ::before so it overlays without clobbering the mesh layers. */
+.stk-mesh,
+.stk-mesh-dawn,
+.stk-mesh-dusk,
+.stk-mesh-meadow { position: relative; isolation: isolate; }
+.stk-mesh        { background-color: var(--gradient-aurora-base); background-image: var(--gradient-aurora); }
+.stk-mesh-dawn   { background-image: var(--gradient-dawn); }
+.stk-mesh-dusk   { background-image: var(--gradient-dusk); }
+.stk-mesh-meadow { background-image: var(--gradient-meadow); }
+.stk-mesh::before,
+.stk-mesh-dawn::before,
+.stk-mesh-dusk::before,
+.stk-mesh-meadow::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background-image: var(--gradient-grain);
+  background-size: 160px 160px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Opt out of grain when a flatter look is wanted. */
+.stk-mesh.is-flat::before,
+.stk-mesh-dawn.is-flat::before,
+.stk-mesh-dusk.is-flat::before,
+.stk-mesh-meadow.is-flat::before { display: none; }
+

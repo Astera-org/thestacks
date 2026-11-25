@@ -1,0 +1,103 @@
+/*
+ * Semantic tokens — the role layer on top of the palette.
+ *
+ * Each token maps a UI role (surface, text, border, ...) to a palette
+ * primitive from `colors.css` via `var()`. Components reference the role,
+ * never the raw swatch, so recoloring the whole site means editing the
+ * mappings here — the canonical palette in `colors.css` stays untouched.
+ *
+ * Exposed through `@theme` (not `@theme inline`) on purpose: the utility
+ * (`bg-page-header`) points at `--color-page-header`, so a future
+ * `.dark` / `[data-theme]` selector can reassign these vars and the whole UI
+ * re-cascades without touching a single component. Every `--color-<name>`
+ * still auto-generates `bg-*`, `text-*`, `border-*`, `ring-*` utilities.
+ *
+ * Naming: text roles use the `fg` (foreground) family to avoid `text-text-*`.
+ * `pub-*` is reserved for the publication (article) page; global chrome uses
+ * plain role names (`nav`, `footer`, `page-header`).
+ */
+
+@theme {
+  /* ---------- Surfaces ---------- */
+  --color-canvas: var(--color-white); /* page / body background */
+  --color-surface: var(--color-white); /* cards, dialogs, sheets, inputs */
+  --color-surface-sunken: var(--color-off-white); /* off-white recessed fills */
+  --color-surface-accent: var(--color-warm-sand-100); /* tinted list cards */
+  --color-surface-hover: var(--color-carbon-700); /* row hover, used at /15 */
+
+  /* ---------- Text (foreground) ---------- */
+  --color-fg: var(--color-carbon-700); /* default body text */
+  --color-fg-strong: var(--color-gray-blue-900); /* headings / emphasis */
+  --color-fg-muted: var(--color-carbon-400); /* secondary / meta */
+  --color-fg-subtle: var(--color-carbon-300); /* faint captions */
+  --color-fg-inverted: var(--color-white); /* text on dark surfaces */
+  --color-link: var(--color-info-900); /* hyperlinks */
+
+  /* ---------- Border / focus ---------- */
+  --color-border: var(--color-gray-200); /* default hairline border */
+  --color-border-strong: var(--color-carbon-100); /* emphasized divider */
+  --color-focus: #ff9100; /* keyboard focus ring (off-ramp accent) */
+
+  /* ---------- Interactive ---------- */
+  --color-primary: var(--color-gray-blue-900); /* primary action */
+  --color-primary-hover: color-mix(
+    in oklab,
+    var(--color-primary),
+    white var(--hover-shade-amount, 25%)
+  );
+  --color-destructive: var(--color-periwinkle-900); /* destructive action */
+  --color-destructive-hover: color-mix(
+    in oklab,
+    var(--color-destructive),
+    white var(--hover-shade-amount, 25%)
+  );
+  --color-accent: var(--color-aqua-blue-600); /* accent affordance */
+  --color-selection: var(--color-aqua-blue-500); /* comment anchor highlight */
+  --color-highlight: var(--color-sky-blue-500); /* live reading highlight */
+
+  /* ---------- Site chrome ---------- */
+  --color-nav: var(--color-white); /* top navbar */
+  --color-page-header: var(--color-warm-sand-300); /* meta / profile hero */
+  --color-footer: var(--color-gray-blue-700); /* site footer */
+
+  /* ---------- Publication (article) page ---------- */
+  --color-pub-header: var(--color-sky-blue-100); /* hero + sticky banner */
+  --color-pub-canvas: var(--color-white); /* article / editor background */
+  --color-pub-toc: var(--color-gray-blue-900); /* table-of-contents chrome */
+  --color-pub-banner-draft: var(--color-butter-yellow-400);
+  --color-pub-banner-deleted: var(--color-error-700);
+
+  /* ---------- Menus ---------- */
+  --color-menu: var(--color-gray-blue-900); /* dark dropdown / popover panel */
+  --color-menu-hover: var(--color-gray-blue-700); /* item hover / focus */
+
+  /* ---------- Overlay ---------- */
+  --color-overlay: var(--color-carbon-500); /* modal / sheet scrim */
+}
+
+/* Hover shade: one knob for every hover. An element's icon shifts to a nearby
+   shade of the element's OWN color; `--color-primary-hover` uses the same mix. */
+:root {
+  --hover-shade-amount: 20%;
+}
+
+/* Mixes the glyph toward `--hover-shade-to`, reading its inherited color so the
+   shade derives from the element's own color, no tone token. Applied to the
+   glyph, not the element: inside `color`, currentColor is the inherited value,
+   which on the child is the element's color. */
+@utility hover-shade {
+  @media (hover: hover) {
+    &:hover :where(svg) {
+      color: color-mix(
+        in oklab,
+        currentColor,
+        var(--hover-shade-to, white) var(--hover-shade-amount, 25%)
+      );
+    }
+  }
+}
+
+/* Light-on-dark elements: darken instead of lighten. */
+@utility hover-shade-invert {
+  --hover-shade-to: black;
+}

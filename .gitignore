@@ -1,0 +1,9 @@
+.vercel
+.env*.local
+.claude
+.cursor
+.vscode
+.zed
+node_modules/
+.DS_Store
+.env*

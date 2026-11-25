@@ -1,0 +1,838 @@
+/*
+ * Rich-text ("prose") styles for everything the MyST renderer emits, shared by
+ * the publication body (#publication-body) and the meta pages. Interactive
+ * publication chrome lives in publication.css.
+ */
+
+.prose {
+  @apply text-fg-strong font-sans;
+  /* Figure floats key off the real column width (8/12 of the grid), not viewport. */
+  container-type: inline-size;
+}
+
+.prose ::selection {
+  @apply bg-sky-blue-500/70;
+}
+
+.prose p {
+  @apply text-body-40 font-normal wrap-anywhere;
+}
+
+.prose p + p {
+  @apply mt-8;
+}
+
+.prose details + p {
+  @apply mt-8;
+}
+
+/* A floated figure is a sibling between two paragraphs, so it breaks the
+   `p + p` chain above; floats are also excluded from normal-flow margin
+   collapsing, so the following paragraph would otherwise get no gap at all. */
+.prose figure + p {
+  @apply mt-8;
+}
+
+.prose summary + p {
+  @apply mt-4;
+}
+
+.prose p + div[id] {
+  margin-top: 26px;
+}
+
+.prose li {
+  @apply text-body-40 font-normal wrap-anywhere;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6, details, figure) {
+  @apply scroll-mt-20 md:scroll-mt-24;
+}
+
+/* H1-H2 are serif "titles", H3-H4 sans "labels". Authored casing is preserved:
+   in scientific prose letter case carries meaning, so we never force uppercase. */
+.prose h1 {
+  @apply text-headline-50 mt-20 mb-6 font-serif md:mt-28;
+}
+
+.prose h2 {
+  @apply text-headline-30 mt-14 mb-5 font-serif md:mt-16;
+}
+
+.prose h3 {
+  @apply text-headline-10 mt-10 mb-3 font-sans;
+}
+
+.prose h4 {
+  @apply text-body-50 mt-8 mb-2 font-sans font-semibold;
+}
+
+/* Collapsible sections (`:::details` / `:::summary`). Two numbers drive the
+   whole layout: --collapsible-rail is where the marker's centre sits, and the
+   rail marking the collapsed region runs straight down it; --collapsible-gutter
+   is where the summary text starts, so body content lines up under it rather
+   than under the marker. The gutter widens with the heading it wraps. */
+.prose details {
+  --collapsible-rail: 0.5rem;
+  --collapsible-gutter: 1.5rem;
+  @apply mt-8 mb-0;
+}
+
+.prose details:has(> summary > :is(h1, h2)) {
+  --collapsible-gutter: 1.75rem;
+}
+
+.prose summary::-webkit-details-marker {
+  @apply hidden;
+}
+.prose summary::marker {
+  @apply hidden;
+}
+.prose summary {
+  --collapsible-marker-shift: 0px;
+  @apply relative cursor-pointer list-none;
+  padding-left: var(--collapsible-gutter);
+}
+
+/* Block, not inline, so the marker can centre itself on the heading's own line
+   box; the vertical rhythm a heading would bring comes from `details` instead. */
+.prose summary > :is(h1, h2, h3, h4, h5, h6) {
+  @apply my-0;
+}
+
+/* The marker hangs off the block the summary opens with, so the `1lh` below is
+   the line box the text actually sits in: a paragraph and a heading set
+   different ones, and centring both against the summary leaves one of them off.
+   That block starts a gutter in from the summary's own edge, hence the shift
+   back onto the rail. Summaries opening with anything else keep the marker on
+   the summary itself, where the shift stays at zero. */
+.prose summary > :is(p, h1, h2, h3, h4, h5, h6):first-child {
+  --collapsible-marker-shift: calc(-1 * var(--collapsible-gutter));
+  @apply relative;
+}
+
+/* A square wearing two borders, rotated into a chevron. Sizing in `em` and
+   offsetting by `1lh` keeps it centred on the first line at every heading level,
+   which a fixed glyph could not do. rotate() spins about the box centre, so the
+   open chevron's point lands on that centre: centring the box on the 1px rail
+   line below puts the point directly above it at any marker size. */
+.prose summary > :is(p, h1, h2, h3, h4, h5, h6):first-child::before,
+.prose summary:not(:has(> :is(p, h1, h2, h3, h4, h5, h6):first-child))::before {
+  --collapsible-marker: clamp(0.375rem, 0.1875em, 0.5rem);
+  @apply border-carbon-200 absolute border-r-2 border-b-2 transition-transform duration-200 motion-reduce:transition-none;
+  content: "";
+  width: var(--collapsible-marker);
+  height: var(--collapsible-marker);
+  top: calc((1lh - var(--collapsible-marker)) / 2);
+  left: calc(
+    var(--collapsible-rail) + 0.5px + var(--collapsible-marker-shift) - 0.5 *
+      var(--collapsible-marker)
+  );
+  transform: rotate(-45deg);
+}
+
+/* Stands in for a missing summary (see the renderer), so it reads as a control
+   rather than as the author's own text. */
+.prose summary.details-summary-fallback {
+  @apply text-caption-50 w-fit font-mono;
+}
+
+.prose summary:hover::before,
+.prose summary:hover > :first-child::before {
+  @apply border-carbon-400;
+}
+
+.prose details[open] > summary::before,
+.prose details[open] > summary > :first-child::before {
+  transform: rotate(45deg);
+}
+
+/* Expand and collapse. ::details-content is the UA-generated box around
+   everything after the summary; a 0fr/1fr grid track there animates to the
+   content's natural height without measuring anything in JS. content-visibility
+   has to ride along with allow-discrete, otherwise the browser flips it to
+   hidden at once and the collapse has nothing left to animate. Not using
+   interpolate-size/calc-size for this: still Chromium-only. */
+.prose details::details-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  /* Longhands, not the `transition` shorthand: the shorthand resets
+     transition-behavior, and the minifier is free to hoist the behavior
+     declaration above it, which silently drops allow-discrete in a production
+     build while dev still looks right. */
+  transition-property: grid-template-rows, content-visibility;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+  @apply motion-reduce:transition-none;
+}
+
+.prose details[open]::details-content {
+  grid-template-rows: 1fr;
+}
+
+/* The outer div positions the rail, the inner one draws it, so the rail spans
+   the content itself and stops short of the marker above it. overflow-hidden
+   drops the grid item's automatic minimum size, without which the track above
+   could never shrink past the content, and clips it on the way down. */
+.prose details > div.details-content-border {
+  @apply overflow-hidden;
+  margin-left: var(--collapsible-rail);
+}
+
+/* Breathing room as the inner element's margin, not the outer one's padding:
+   padding on the grid item would survive the track collapsing to 0fr, leaving a
+   32px floor the close animation drops off at the end instead of animating
+   through. Margin sits inside the track and shrinks with it. */
+.prose details > div.details-content-border > div.details-content-wrapper {
+  @apply my-4 border-l border-gray-800;
+  padding-left: calc(var(--collapsible-gutter) - var(--collapsible-rail) - 1px);
+}
+
+/* Marks where a link into collapsed content landed (see lib/collapsibles).
+   Only the outline's colour animates, so nothing moves under reduced motion. */
+.prose .collapsible-target-flash {
+  @apply rounded-lg outline-3 outline-offset-8 outline-transparent;
+  animation: collapsible-target-flash 1.4s var(--ease-out);
+}
+
+@keyframes collapsible-target-flash {
+  20%,
+  60% {
+    outline-color: var(--color-highlight);
+  }
+}
+
+.prose ul,
+.prose ol {
+  @apply marker:text-fg-strong mt-6 mb-6 list-outside pl-8;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply mb-3;
+}
+
+/* Alternate markers per nesting level. */
+.prose ul > li > ul > li {
+  @apply list-[circle];
+}
+
+.prose ul > li > ul > li > ul > li {
+  @apply list-disc;
+}
+
+.prose ul > li > ul > li > ul > li > ul > li {
+  @apply list-[circle];
+}
+
+.prose ol > li > ol > li {
+  @apply list-[lower-alpha];
+}
+
+.prose ol > li > ol > li > ol > li {
+  @apply list-[lower-roman];
+}
+
+.prose ol > li > ol > li > ol > li > ol > li {
+  @apply list-[lower-alpha];
+}
+
+.prose li p {
+  @apply px-0;
+}
+
+.prose li p + p {
+  @apply mt-1;
+}
+
+.prose a {
+  /* skip-ink:none keeps the underline continuous through descenders. */
+  @apply wrap-break-word underline underline-offset-4;
+  text-decoration-skip-ink: none;
+}
+
+.prose hr {
+  @apply my-8;
+}
+
+/* Extra space above the divider that precedes the backmatter. */
+.prose hr:last-of-type {
+  @apply mt-20;
+}
+
+/* The fill lives on the inner `code`, so `pre` stays a bare transparent wrapper:
+   any padding here would sit outside the block and, unlike a margin, would not
+   collapse with the next element's own top margin. */
+.prose pre {
+  @apply text-fg-strong text-body-30 my-8 bg-transparent font-mono font-light text-wrap;
+}
+
+/* Math blocks need a transparent background, not the code-block fill. */
+.prose pre:has(.katex-display),
+.prose pre.math,
+.prose code.language-math {
+  @apply bg-transparent! p-0!;
+  font-family: inherit !important;
+}
+
+/* Scale math to 1em so it tracks the surrounding text, and anchor display math
+   to the body size so inline and block equations match. */
+.prose .katex {
+  font-size: 1em;
+}
+
+.prose .katex-display {
+  font-size: var(--text-body-40);
+  /* Let wide equations scroll instead of being clipped. */
+  @apply overflow-x-auto overflow-y-hidden;
+  /* `rehype-katex` adds fractional heights, so the y gets clipped by the
+     overflow-y-hidden. We don't want it to scroll either, so we add a padding
+     on the top and bottom, so that 1:1 DPI screens don't accidentally clip */
+  @apply py-px;
+}
+
+/* Wide inline math can't wrap; on narrow columns scroll its paragraph instead
+   of overflowing. Scrolling makes the paragraph a block formatting context,
+   which stops it wrapping around floated figures, so the wide-column float
+   query below resets it. */
+.prose p:has(.katex) {
+  @apply overflow-x-auto overflow-y-hidden;
+}
+
+.prose pre code {
+  @apply rounded-xl bg-gray-500;
+}
+
+.prose code:not(pre code) {
+  @apply text-body-30 bg-gray-200 px-1.5 py-1 font-mono font-light wrap-anywhere whitespace-normal;
+}
+
+/* Strip the backtick pseudo-content Tailwind adds to code. */
+.prose code::before,
+.prose code::after {
+  @apply content-none;
+}
+
+.prose figure[type="table"],
+.prose figure:has(> table) {
+  @apply max-w-full overflow-y-hidden;
+}
+
+.prose .table-scroll-wrapper {
+  @apply overflow-x-auto overflow-y-hidden rounded-xl border border-gray-800;
+}
+
+.prose table {
+  @apply text-body-30 bg-surface my-0 w-full border-collapse border-spacing-0;
+}
+
+.prose table li {
+  @apply mb-0 ml-0 text-inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.prose table img {
+  @apply my-2;
+}
+
+.prose table :is(p, li) {
+  @apply wrap-break-word;
+}
+
+/* Mobile: constrain tables to the viewport with horizontal scroll. */
+@media (width < theme(--breakpoint-md)) {
+  /* Exclude tables with images, which would bloat under max-content. */
+  .prose table:not(:has(img)) {
+    @apply min-w-max;
+  }
+
+  .prose figure[type="table"],
+  .prose figure:has(> .table-scroll-wrapper),
+  .prose figure:has(> .figure-action-target > .table-scroll-wrapper),
+  .prose figure:has(> table) {
+    @apply -ml-5 box-border w-full pl-5;
+    max-width: 100vw;
+  }
+
+  .prose .table-scroll-wrapper {
+    @apply max-w-full;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Buy back horizontal room, but only from the gap between rail and content —
+     pulling the rail itself flush left would unpick its alignment with the
+     marker. */
+  .prose details:has(> summary > :is(h1, h2)) {
+    --collapsible-gutter: 1.5rem;
+  }
+}
+
+.prose thead {
+  @apply border-b-0;
+}
+
+.prose thead th,
+.prose thead td {
+  @apply text-body-30 text-fg-strong h-8 border border-gray-800 bg-gray-500 px-3 py-2 align-middle font-sans font-semibold not-italic;
+}
+
+/* Group-spanning header cells read best centered over the columns they cover. */
+.prose thead th[colspan],
+.prose thead td[colspan] {
+  @apply text-center;
+}
+
+/* Default to left only when the source sends no alignment. A backend align
+   attribute or inline text-align is left untouched so it still wins, instead of
+   falling back to the browser's centered <th> default. */
+.prose thead th:not([colspan]):not([align]):not([style*="text-align"]),
+.prose thead td:not([colspan]):not([align]):not([style*="text-align"]) {
+  @apply text-left;
+}
+
+.prose tbody {
+  @apply text-body-30 bg-surface;
+}
+
+.prose tbody tr {
+  @apply text-body-30 bg-surface h-8;
+}
+
+.prose tbody td {
+  @apply text-body-30 text-fg-strong border border-gray-800 px-3 py-2 align-middle font-sans font-normal not-italic;
+}
+
+/* The wrapper draws the outer ring. Edge classes come from rehypeTableEdgeCells. */
+.prose .table-scroll-wrapper > table :is(th, td).table-edge-top {
+  @apply border-t-0;
+}
+
+.prose .table-scroll-wrapper > table :is(th, td).table-edge-bottom {
+  @apply border-b-0;
+}
+
+.prose .table-scroll-wrapper > table :is(th, td).table-edge-left {
+  @apply border-l-0;
+}
+
+.prose .table-scroll-wrapper > table :is(th, td).table-edge-right {
+  @apply border-r-0;
+}
+
+.prose tbody th {
+  @apply text-body-30 text-fg-strong border border-gray-800 bg-gray-500 px-3 py-2 font-semibold;
+}
+
+.prose tbody th:not([align]):not([style*="text-align"]) {
+  @apply text-left;
+}
+
+/* .header-row is added by rehypeTableHeaderRows. */
+.prose tbody tr.header-row td {
+  @apply bg-gray-500 font-semibold;
+}
+
+.prose table em,
+.prose table i {
+  @apply italic;
+}
+
+.prose figure > img,
+.prose figure > .figure-action-target > img,
+.prose figure:has(> img) img,
+.prose figure:has(> .figure-action-target > img) img {
+  @apply h-auto w-full max-w-full rounded-xl;
+}
+
+/* Collapse a figure's top margin when it follows a heading so they stay grouped
+   at every width, including when the figure stacks under the heading. */
+.prose :is(h1, h2, h3, h4) + figure.float-left,
+.prose :is(h1, h2, h3, h4) + figure.float-right {
+  @apply mt-0;
+}
+
+/* float-left / float-right are global utilities; reset to block by default so
+   floating is re-enabled per column width below, not at every width. */
+.prose figure.float-left,
+.prose figure.float-right {
+  @apply float-none;
+}
+
+/* Enable floating only on a column wide enough for it to ever be readable;
+   within that range MystFigure still demotes any figure whose media would not
+   leave a 320px text column (float-suppressed). Narrower columns stay blocks. */
+@container (width >= 750px) {
+  .prose figure.float-left {
+    @apply float-left mr-10 w-fit;
+  }
+
+  .prose figure.float-right {
+    @apply float-right ml-10 w-fit;
+  }
+
+  .prose .info-box figure.float-left {
+    @apply mr-0 mb-5;
+  }
+
+  .prose .info-box figure.float-right {
+    @apply mb-5 ml-0;
+  }
+
+  /* Clear so a non-floated figure drops below a preceding float instead of
+     interleaving and stranding its action buttons above the image. */
+  .prose figure:not(.float-left):not(.float-right) {
+    @apply clear-both;
+  }
+
+  /* A scrolling paragraph shrinks beside a float instead of wrapping under it,
+     so move scrolling onto inline equations once floats are active. */
+  .prose p:has(.katex) {
+    @apply overflow-visible;
+  }
+
+  /* inline-flex, not inline-block: a scrolling inline-block takes its bottom
+     edge as baseline, while inline-flex keeps the math baseline on the text's.
+     KaTeX ends subscripts with a 2px spacer that hangs past the box and would
+     trigger a scrollbar; the end padding absorbs it and the negative margin
+     cancels the extra width. */
+  .prose p .katex:not(.katex-display .katex) {
+    @apply -me-0.5 inline-flex max-w-full overflow-x-auto overflow-y-hidden pe-0.5;
+    /* `rehype-katex` adds fractional heights, so the y gets clipped by the
+       overflow-y-hidden. We don't want it to scroll either, so we add a padding
+       on the top and bottom, so that 1:1 DPI screens don't accidentally clip */
+    @apply py-px;
+  }
+}
+
+/* MystFigure adds float-suppressed to a figure whose media would not leave a
+   readable text column beside it; center it as a block instead of floating. */
+.prose figure.float-left.float-suppressed,
+.prose figure.float-right.float-suppressed {
+  @apply float-none clear-both mx-auto w-fit;
+}
+
+.prose video {
+  @apply mx-auto block w-full rounded-xl;
+}
+
+.prose figure > video {
+  @apply my-0;
+}
+
+/* Unsized media has no (or a full-width) explicit size, so keep its wrapper
+   full-width of the prose column. Media given an explicit narrower width
+   (data-sized) is excluded: it shrinks to fit so its caption tracks it. */
+.prose
+  figure
+  > .figure-action-target[data-media-type="image"]:not([data-sized]),
+.prose
+  figure
+  > .figure-action-target[data-media-type="video"]:not([data-sized]),
+.prose
+  figure
+  > .figure-action-target[data-media-type="iframe"]:not([data-sized]) {
+  @apply w-full;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  .prose figure > .figure-action-target {
+    @apply w-fit max-w-full;
+  }
+}
+
+.prose figure {
+  @apply mx-auto my-12 w-full max-w-full;
+}
+
+.prose audio {
+  @apply my-8;
+}
+
+.prose audio::-webkit-media-controls-enclosure,
+.prose audio::-webkit-media-controls-panel {
+  @apply bg-gray-500;
+}
+
+.prose iframe {
+  @apply h-100 w-full max-w-full rounded-xl md:my-8;
+}
+
+.prose figure > iframe {
+  @apply mx-auto my-0;
+}
+
+.prose iframe[data-aspect-ratio] {
+  @apply h-auto;
+}
+
+.prose figure[type="table"] figcaption,
+.prose figure figcaption {
+  @apply text-body-30 text-fg-strong relative mt-3 mb-0 p-0;
+}
+
+/* flow-root so the wrapper contains the floated action buttons; the caption and
+   legend text both wrap around the float, keeping the two together instead of
+   the buttons reserving height that separates them. */
+.prose figure .figure-caption-wrapper {
+  @apply flow-root;
+}
+
+/* Sized media figures shrink to their media so they hug and center it; the
+   caption wrapper is pulled out of that width (w-0) then stretched back
+   (min-w-full) so the caption tracks the media width rather than stretching
+   the figure. Unsized media (including width:100%) stay full-column width. */
+@media (width >= theme(--breakpoint-md)) {
+  .prose figure:has(> .figure-action-target[data-sized] > img),
+  .prose figure:has(> .figure-action-target[data-sized] > video),
+  .prose figure:has(> .figure-action-target[data-sized] > iframe) {
+    @apply w-fit;
+  }
+
+  .prose
+    figure:has(> .figure-action-target[data-sized] > img)
+    > .figure-caption-wrapper,
+  .prose
+    figure:has(> .figure-action-target[data-sized] > video)
+    > .figure-caption-wrapper,
+  .prose
+    figure:has(> .figure-action-target[data-sized] > iframe)
+    > .figure-caption-wrapper {
+    @apply w-0 min-w-full;
+  }
+}
+
+.prose figure[type="table"] figcaption p,
+.prose figure figcaption p,
+.prose .figure-legend p {
+  @apply m-0 px-0;
+}
+
+.prose .caption-label {
+  @apply text-body-30 text-fg-strong font-sans font-normal;
+}
+
+.prose .caption-text {
+  @apply text-body-30 text-fg-strong font-sans font-medium;
+}
+
+.prose figure[type="table"] .figure-caption,
+.prose figure .figure-caption {
+  @apply flex-1;
+}
+
+.prose figcaption p {
+  @apply text-body-30 text-fg-strong my-0 font-sans font-medium;
+}
+
+.prose figcaption p strong {
+  @apply text-fg-strong;
+}
+
+.prose figcaption p + p {
+  @apply mt-1;
+}
+
+.prose figure .figure-legend {
+  @apply mt-1;
+}
+
+.prose figure .figure-legend p {
+  @apply text-body-30 text-fg-strong my-0 font-sans font-normal;
+}
+
+.prose figure .figure-legend p + p,
+.prose figure .figure-legend p + .legend-cut > p:first-child,
+.prose figure .figure-legend p + .legend-rest > p:first-child {
+  @apply mt-1;
+}
+
+.prose figure .figure-legend strong,
+.prose figure .figure-legend b {
+  @apply text-fg-strong font-bold;
+}
+
+.prose figure .figure-legend a {
+  @apply text-fg-strong;
+}
+
+.prose figure .figure-legend .katex {
+  @apply text-body-30!;
+}
+
+.prose figcaption code,
+.prose .figure-legend code {
+  @apply text-body-30 px-px text-inherit;
+  font-weight: inherit;
+}
+
+.prose .caption-label code {
+  @apply text-body-30 text-fg-strong px-px font-normal;
+}
+
+.prose .caption-text code {
+  @apply text-body-30 text-fg-strong px-px font-medium;
+}
+
+.prose blockquote {
+  @apply my-8 rounded-xl bg-gray-500 py-8 pr-10 pl-6;
+}
+
+.prose blockquote p {
+  @apply text-body-40 text-fg-strong border-carbon-200 border-l-2 pl-6 leading-normal;
+}
+
+.prose blockquote p + p {
+  @apply mt-4;
+}
+
+.prose .info-box {
+  /* overflow-hidden creates a BFC so the callout shrinks around floated figures. */
+  @apply my-8 overflow-hidden rounded-xl bg-gray-500 py-8 text-wrap break-words;
+  container-type: inline-size; /* scopes the figure float query to the callout width */
+}
+
+.prose .info-box :first-child {
+  @apply mt-0;
+}
+
+.prose .info-box :last-child {
+  @apply mb-0;
+}
+
+.prose .info-box > p,
+.prose .info-box > figure,
+.prose .info-box > details {
+  @apply px-8;
+}
+
+.prose .info-box > ul,
+.prose .info-box > ol {
+  @apply pr-8 pl-16;
+}
+
+/* Only a collapsible callout inside another collapsible drops its rail, which
+   would stack against the outer section's. A top-level one keeps it. */
+.prose details .info-box > details {
+  --collapsible-rail: 0.375rem;
+  --collapsible-gutter: 2.125rem;
+  @apply px-5;
+}
+
+.prose details .info-box > details > summary > :is(h1, h2, h3, h4, h5, h6) {
+  @apply text-caption-30 text-fg-muted font-mono font-normal tracking-wide uppercase;
+}
+
+.prose
+  details
+  .info-box
+  > details
+  > .details-content-border
+  > .details-content-wrapper {
+  @apply border-transparent;
+}
+
+/* When the collapsible is the whole callout, the summary is its header row and
+   the box shrinks to it when closed. */
+.prose details .info-box:has(> details:only-child) {
+  @apply py-0;
+}
+
+.prose details .info-box > details:only-child > summary {
+  @apply py-4;
+}
+
+.prose
+  details
+  .info-box
+  > details:only-child
+  > .details-content-border
+  > .details-content-wrapper {
+  @apply mt-0 mb-5;
+}
+
+.prose .file-download-container {
+  @apply text-body-30 bg-warm-sand-300 my-8 flex items-center justify-between gap-4 rounded-xl p-6 font-mono font-light;
+}
+
+.prose .file-download-container .file-download-info {
+  @apply flex min-w-0 items-center gap-4;
+}
+
+.prose .file-download-container .file-icon {
+  @apply bg-gray-blue-900 text-off-white flex size-9 shrink-0 items-center justify-center rounded-full;
+}
+
+.prose .file-download-container .file-name {
+  @apply truncate;
+}
+
+.prose .file-download-container a {
+  @apply border-gray-blue-900 text-fg-strong flex size-9 shrink-0 items-center justify-center rounded-full border no-underline;
+}
+
+.prose figure:has(.file-download-container) {
+  @apply w-full;
+}
+
+/* Backmatter (acknowledgements, competing interests, etc.): a metadata block
+   with small mono labels in the left column and receded content on the right. */
+.prose .backmatter {
+  @apply border-border-strong mt-16 mb-8 border-t pt-10;
+}
+
+.prose .backmatter-item {
+  @apply mb-8 last:mb-0 md:grid md:grid-cols-[minmax(180px,1fr)_3fr] md:gap-x-8 md:gap-y-0;
+}
+
+/* The label heading, whatever level MyST emits. */
+.prose .backmatter-item :is(h1, h2, h3, h4, h5, h6) {
+  @apply text-fg-muted text-caption-20 mt-0 mb-2 px-0 font-mono tracking-wider uppercase md:col-start-1 md:row-start-1 md:mb-0;
+}
+
+.prose .backmatter-item p,
+.prose .backmatter-item ul,
+.prose .backmatter-item ol {
+  @apply text-fg-muted text-body-30 px-0 last:mb-0 md:col-start-2 md:mt-0;
+}
+
+.prose .backmatter-item p:first-of-type {
+  @apply md:row-start-1;
+}
+
+/**
+ * This is for the edit page, so that there isn't a huge margin at the top of
+ * the body of a pub, when that isn't necessary for that particular page.
+ */
+article.no-margin-first-child > div:first-child > *:first-child {
+  margin-top: 0;
+}
+
+/* Condensed type for the editor's body preview, which only teases the body. */
+.prose.prose-compact h1 {
+  @apply text-headline-10 mt-8 mb-3;
+}
+
+.prose.prose-compact h2 {
+  @apply text-body-60 mt-6 mb-2;
+}
+
+.prose.prose-compact :is(h3, h4) {
+  @apply text-body-40 mt-5 mb-2;
+}
+
+.prose.prose-compact :is(p, li) {
+  @apply text-body-30;
+}
+
+.prose.prose-compact p + p {
+  @apply mt-4;
+}

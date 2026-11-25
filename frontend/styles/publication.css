@@ -1,0 +1,197 @@
+/*
+ * Interactive publication-app chrome scoped to `#publication-body`: comment
+ * highlights, reference popovers, embedded feedback widgets, and the live
+ * figure chrome (the caption read-all toggle, figure/table action buttons, and
+ * the lightbox). Generic MyST-rendered content (captions, legends, callouts,
+ * file downloads, backmatter, tables, figures) lives in prose.css.
+ */
+
+::highlight(temp-comment-highlight) {
+  @apply bg-highlight/70;
+}
+
+#publication-body #purpose {
+  @apply mt-0!;
+}
+
+#publication-body span.ref-link-wrapper,
+#publication-body span.ref-link-popover-label {
+  @apply text-body-10! -ml-0.5 align-super font-bold;
+}
+
+#publication-body span.ref-link-wrapper a {
+  @apply no-underline;
+}
+
+#publication-body a.ref-link-popover-trigger {
+  @apply cursor-pointer no-underline;
+}
+
+div.ref-link-popover-content {
+  @apply text-caption-30! max-h-[40svh] overflow-y-auto break-words;
+}
+
+.ref-link-popover-label {
+  @apply whitespace-nowrap;
+}
+
+/* TODO: move these embedded feedback/social iframes out of the publication body. */
+#publication-body iframe[src*="publishing-tools.arcadiascience.com/typeform"],
+#publication-body iframe[src*="publishing-tools.arcadiascience.com/twitter"] {
+  @apply min-w-full;
+}
+
+/* Interactive figure chrome: the caption read-all toggle and figure/table
+   action buttons. Caption and legend typography lives in prose.css. */
+
+#publication-body .caption-read-all {
+  @apply text-body-20 text-fg-subtle inline-flex cursor-pointer items-center gap-1 border-none bg-transparent p-0 font-sans font-medium not-italic transition-colors duration-200;
+}
+
+#publication-body .caption-read-all:hover,
+#publication-body .caption-read-all:focus {
+  @apply text-link;
+}
+
+#publication-body .caption-read-all svg {
+  @apply h-1 w-2 shrink-0 transition-transform duration-200;
+}
+
+#publication-body .caption-read-all.expanded svg {
+  @apply rotate-180;
+}
+
+#publication-body .caption-collapse-wrapper {
+  @apply whitespace-nowrap;
+}
+
+/* FigureLegend wraps the cut copy of a truncated legend's last shown block,
+   and the text from that block on. Neither wrapper should affect layout.
+   `display` must not apply while the rest is hidden="until-found", or find in
+   page can't reveal it. */
+.figure-legend .legend-cut,
+.figure-legend .legend-rest:not([hidden]) {
+  display: contents;
+}
+
+#publication-body figure[type="table"] .table-actions,
+#publication-body figure .table-actions {
+  @apply ml-4 flex gap-2;
+}
+
+#publication-body figure[type="table"] .table-action-btn,
+#publication-body figure .table-action-btn {
+  @apply bg-mint-green-300 text-carbon-500 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border-none p-0 transition-all duration-200;
+}
+
+#publication-body figure[type="table"] .table-action-btn:hover,
+#publication-body figure .table-action-btn:hover {
+  @apply bg-mint-green-100 -translate-y-px;
+}
+
+#publication-body figure[type="table"] .table-action-btn svg,
+#publication-body figure .table-action-btn svg {
+  @apply h-4 w-4;
+}
+
+/* Standalone audio has no caption to host its actions, so it keeps the overlaid
+   pill. The p-1 padding plus rounded-full turns the stacked buttons into a clean
+   vertical capsule. Mobile has no hover, so the base state stays visible. */
+#publication-body .audio-action-target {
+  @apply relative;
+}
+
+#publication-body .audio-action-target .figure-action-buttons {
+  @apply bg-surface absolute top-3 right-3 flex flex-col gap-1 rounded-full p-1 shadow-md transition-opacity duration-150;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  /* Desktop: reveal on hover/focus only. */
+  #publication-body .audio-action-target .figure-action-buttons {
+    @apply pointer-events-none opacity-0;
+  }
+
+  #publication-body .audio-action-target:hover .figure-action-buttons,
+  #publication-body .audio-action-target:focus-within .figure-action-buttons {
+    @apply pointer-events-auto opacity-100;
+  }
+}
+
+/* Figure actions live at the top-right of the caption wrapper, floated so both
+   the caption and the legend text wrap around them (keeping the two together).
+   They never overlap the media or an embed's own controls. Removed on mobile:
+   there is no lightbox, and long-press already saves images. */
+#publication-body .figure-caption-wrapper .figure-action-buttons {
+  @apply hidden;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  /* relative z-10 so the buttons paint above the following in-flow legend
+     paragraphs; a bare float paints under sibling blocks, which then swallow
+     the clicks. */
+  #publication-body .figure-caption-wrapper .figure-action-buttons {
+    @apply relative z-10 float-right mt-3 mb-1 ml-3 inline-flex gap-1.5;
+  }
+}
+
+/* Visuals come from the IconButton these render as (see MystActionButton);
+   only the JS-driven loading state stays here. */
+#publication-body .figure-action-btn.loading {
+  @apply pointer-events-none;
+  animation: pulse-opacity 0.8s ease-in-out infinite;
+}
+
+/* Lightbox chrome lives in FigureLightbox.tsx via Tailwind classNames. These
+   rules remain because they style the caption HTML injected through
+   dangerouslySetInnerHTML, which inline utilities cannot reach. */
+.figure-lightbox-caption-section .figure-caption,
+.figure-lightbox-caption-section figcaption {
+  @apply text-body-30 text-fg-strong font-sans;
+}
+
+.figure-lightbox-caption-section figcaption p + p {
+  @apply mt-1;
+}
+
+.figure-lightbox-caption-section .caption-label {
+  @apply font-normal;
+}
+
+.figure-lightbox-caption-section .caption-text {
+  @apply font-medium;
+}
+
+.figure-lightbox-caption-section .figure-legend {
+  @apply mt-1;
+}
+
+.figure-lightbox-caption-section .figure-legend p {
+  @apply text-body-30 text-fg-strong font-sans font-normal;
+}
+
+.figure-lightbox-caption-section .figure-legend p + p {
+  @apply mt-1;
+}
+
+.figure-lightbox-caption-section a {
+  @apply underline underline-offset-4;
+  /* Keep the underline continuous through descenders/italics. */
+  text-decoration-skip-ink: none;
+}
+
+.figure-lightbox-caption-section a.ref-link {
+  @apply text-body-10! font-bold no-underline;
+}
+
+.figure-lightbox-caption-section code {
+  @apply text-body-30 bg-gray-200 px-px font-mono;
+}
+
+.figure-lightbox-caption-section code::before,
+.figure-lightbox-caption-section code::after {
+  @apply content-none;
+}
+
+.figure-lightbox-caption-section .caption-text code {
+  @apply font-medium;
+}

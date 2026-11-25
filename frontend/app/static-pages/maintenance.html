@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta property="og:site_name" content="The Stacks" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:image" content="https://thestacks.org/og-image.png?v2" />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://thestacks.org/og-image.png?v2"
+    />
+    <meta name="generator" content="The Stacks" />
+    <title>The Stacks</title>
+    <meta property="og:title" content="The Stacks" />
+    <meta
+      property="og:description"
+      content="An experimental new publishing platform. Browse the latest research."
+    />
+    <meta
+      name="description"
+      content="An experimental new publishing platform. Browse the latest research."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap"
+    />
+    <style>
+      :root {
+        --fluid-slope: calc((100vw - 375px) / (1440 - 375));
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 16px;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100svh;
+        font-family:
+          "DM Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        line-height: 1.6;
+        background-color: #f7f7f7;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-feature-settings:
+          "rlig" 1,
+          "calt" 1;
+      }
+
+      img,
+      svg,
+      picture,
+      video,
+      canvas {
+        display: block;
+        max-width: 100%;
+      }
+
+      button {
+        font: inherit;
+        cursor: pointer;
+        text-align: left;
+        background: none;
+        border: none;
+        padding: 0;
+        color: inherit;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      :focus-visible {
+        outline: 2px solid #ff9100;
+        outline-offset: 2px;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      @keyframes pub-dot {
+        0%,
+        80%,
+        100% {
+          opacity: 0.25;
+        }
+
+        40% {
+          opacity: 1;
+        }
+      }
+
+      .site-header {
+        background-color: #f7f7f7;
+        height: 3.2rem;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-inner {
+        max-width: 1440px;
+        margin-inline: auto;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 1rem;
+      }
+
+      .header-logo {
+        color: #212630;
+        height: auto;
+        width: 5rem;
+      }
+
+      .main {
+        padding-top: 3.2rem;
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: column;
+      }
+
+      .hero {
+        display: flex;
+        flex: 1 1 0%;
+        align-items: center;
+        justify-content: center;
+        background-color: #ecebf0;
+        padding-inline: 2.5rem;
+        padding-block: 4rem;
+      }
+
+      .hero-content {
+        max-width: 660px;
+      }
+
+      .status-badge {
+        color: rgba(33, 38, 48, 0.7);
+        font-size: 11px;
+        line-height: 1.1;
+        margin-bottom: 2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        border: 1px solid #e2e2e3;
+        background-color: #ffffff;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        font-family:
+          "DM Mono", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+          "Liberation Mono", Menlo, monospace;
+        text-transform: uppercase;
+      }
+
+      .status-badge__dot {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        background-color: #eea104;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+      }
+
+      .hero-title {
+        color: #262626;
+        font-size: clamp(2rem, 2rem + 16 * var(--fluid-slope), 3rem);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.125rem;
+        font-family: "Newsreader", Georgia, "Times New Roman", serif;
+        text-wrap: pretty;
+        margin: 0;
+      }
+
+      .hero-description {
+        font-size: clamp(1.125rem, 1.125rem + 2 * var(--fluid-slope), 1.25rem);
+        line-height: 1.6;
+        color: rgba(33, 38, 48, 0.72);
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        font-family:
+          "DM Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        text-wrap: pretty;
+      }
+
+      .status-row {
+        color: rgba(33, 38, 48, 0.72);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding-top: 1.25rem;
+        font-family:
+          "DM Mono", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+          "Liberation Mono", Menlo, monospace;
+      }
+
+      .status-dots {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .status-dot {
+        animation: pub-dot 1.2s ease-in-out infinite;
+        background-color: #222222;
+        display: block;
+        height: 0.3125rem;
+        width: 0.3125rem;
+        border-radius: 9999px;
+      }
+
+      .status-dot--delay-1 {
+        animation-delay: 150ms;
+      }
+
+      .status-dot--delay-2 {
+        animation-delay: 300ms;
+      }
+
+      .divider {
+        background-color: #a4a1aa;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        height: 1px;
+      }
+
+      .contact-line {
+        color: rgba(33, 38, 48, 0.6);
+        font-size: 0.8125rem;
+        line-height: 1.4;
+        font-family:
+          "DM Mono", ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+          "Liberation Mono", Menlo, monospace;
+        margin: 0;
+      }
+
+      .link-hover:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .site-footer {
+        font-size: 0.875rem;
+        line-height: 1.4;
+        background-color: #383f51;
+        color: #f7f7f7;
+        padding-block: 2.5rem;
+      }
+
+      .footer-inner {
+        max-width: 1440px;
+        margin-inline: auto;
+        width: 100%;
+        padding-inline: 1rem;
+      }
+
+      .footer-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2.5rem;
+      }
+
+      .footer-logo {
+        height: auto;
+        width: 5rem;
+      }
+
+      .footer-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2.5rem;
+      }
+
+      .footer-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .privacy-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .site-header {
+          height: 4rem;
+        }
+
+        .header-inner {
+          padding-inline: 2rem;
+        }
+
+        .header-logo {
+          width: 7.5rem;
+        }
+
+        .main {
+          padding-top: 4rem;
+        }
+
+        .footer-row {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .footer-logo {
+          width: 7.5rem;
+        }
+
+        .footer-right {
+          align-items: flex-end;
+          gap: 1.25rem;
+        }
+
+        .footer-nav ul {
+          flex-direction: row;
+          gap: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a aria-label="Home" href="/" data-discover="true"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="158"
+            height="56"
+            viewBox="0 0 158 56"
+            fill="none"
+            aria-hidden="true"
+            class="header-logo"
+          >
+            <path
+              d="M26.7426 2.74316H25.2559V53.2564H26.7426V2.74316Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M51.2554 27.2568H0.742188V28.7436H51.2554V27.2568Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M50.885 12.7763L0.373047 41.9395L1.11644 43.227L51.6284 14.0639L50.885 12.7763Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M52 54H0V2H52V54ZM1.48678 52.5133H50.5132V3.48678H1.48678V52.5133Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M66.748 24V6.024H60.868V4.4H74.588V6.024H68.708V24H66.748ZM90.2052 24V4.4H92.1652V24H90.2052ZM77.6332 24V4.4H79.5932V24H77.6332ZM79.1452 14.844V13.22H90.7652V14.844H79.1452ZM96.5278 24V4.4H108.428V6.024H98.4878V13.332H107.588V14.956H98.4878V22.376H108.428V24H96.5278ZM68.288 52.336C66.8507 52.336 65.6 52.0747 64.536 51.552C63.4907 51.0293 62.688 50.3013 62.128 49.368C61.568 48.416 61.288 47.3333 61.288 46.12H63.332C63.332 46.9413 63.5187 47.6973 63.892 48.388C64.2653 49.0787 64.816 49.6387 65.544 50.068C66.272 50.4787 67.1867 50.684 68.288 50.684C69.2587 50.684 70.0707 50.5253 70.724 50.208C71.396 49.872 71.9093 49.4333 72.264 48.892C72.6187 48.3507 72.796 47.7347 72.796 47.044C72.796 46.2227 72.6187 45.56 72.264 45.056C71.928 44.552 71.4613 44.1413 70.864 43.824C70.2667 43.5067 69.5853 43.236 68.82 43.012C68.0733 42.7693 67.28 42.508 66.44 42.228C64.928 41.7053 63.8173 41.0613 63.108 40.296C62.3987 39.5307 62.0347 38.5507 62.016 37.356C62.016 36.3293 62.2493 35.424 62.716 34.64C63.2013 33.8373 63.9013 33.212 64.816 32.764C65.7307 32.2973 66.8133 32.064 68.064 32.064C69.2773 32.064 70.332 32.2973 71.228 32.764C72.1427 33.212 72.852 33.8467 73.356 34.668C73.86 35.4707 74.112 36.3947 74.112 37.44H72.096C72.096 36.8427 71.9373 36.264 71.62 35.704C71.3213 35.1253 70.864 34.6587 70.248 34.304C69.6507 33.9307 68.8853 33.744 67.952 33.744C67.1867 33.744 66.5053 33.884 65.908 34.164C65.3293 34.4253 64.872 34.8173 64.536 35.34C64.2 35.844 64.032 36.4413 64.032 37.132C64.032 37.804 64.1813 38.3547 64.48 38.784C64.7787 39.2133 65.1987 39.568 65.74 39.848C66.2813 40.128 66.916 40.3893 67.644 40.632C68.372 40.856 69.184 41.1173 70.08 41.416C70.9947 41.7333 71.8067 42.116 72.516 42.564C73.2253 43.012 73.7853 43.5907 74.196 44.3C74.6067 44.9907 74.812 45.868 74.812 46.932C74.812 47.8467 74.5693 48.724 74.084 49.564C73.6173 50.3853 72.8987 51.0573 71.928 51.58C70.9573 52.084 69.744 52.336 68.288 52.336ZM82.3339 52V34.024H76.4539V32.4H90.1739V34.024H84.2939V52H82.3339ZM89.717 52L96.941 32.4H98.957L106.181 52H104.109L97.949 34.976L91.761 52H89.717ZM93.021 46.708L93.609 45.084H102.261L102.849 46.708H93.021ZM116.576 52.336C114.691 52.336 113.058 51.916 111.676 51.076C110.295 50.2173 109.231 49.032 108.484 47.52C107.738 45.9893 107.364 44.216 107.364 42.2C107.364 40.184 107.738 38.42 108.484 36.908C109.231 35.3773 110.295 34.192 111.676 33.352C113.076 32.4933 114.71 32.064 116.576 32.064C118.779 32.064 120.562 32.5867 121.924 33.632C123.306 34.6587 124.192 36.1147 124.584 38H122.428C122.13 36.7307 121.495 35.7133 120.524 34.948C119.554 34.164 118.238 33.772 116.576 33.772C115.139 33.772 113.879 34.108 112.796 34.78C111.714 35.452 110.874 36.4227 110.276 37.692C109.679 38.9427 109.38 40.4453 109.38 42.2C109.38 43.9547 109.679 45.4667 110.276 46.736C110.874 47.9867 111.714 48.948 112.796 49.62C113.879 50.292 115.139 50.628 116.576 50.628C118.238 50.628 119.544 50.2453 120.496 49.48C121.467 48.7147 122.111 47.7067 122.428 46.456H124.584C124.174 48.304 123.287 49.7507 121.924 50.796C120.58 51.8227 118.798 52.336 116.576 52.336ZM128.137 52V32.4H130.097V41.584L138.581 32.4H141.073L133.765 40.24L141.157 52H138.777L132.365 41.752L130.097 44.16V52H128.137ZM150.155 52.336C148.718 52.336 147.467 52.0747 146.403 51.552C145.358 51.0293 144.555 50.3013 143.995 49.368C143.435 48.416 143.155 47.3333 143.155 46.12H145.199C145.199 46.9413 145.386 47.6973 145.759 48.388C146.133 49.0787 146.683 49.6387 147.411 50.068C148.139 50.4787 149.054 50.684 150.155 50.684C151.126 50.684 151.938 50.5253 152.591 50.208C153.263 49.872 153.777 49.4333 154.131 48.892C154.486 48.3507 154.663 47.7347 154.663 47.044C154.663 46.2227 154.486 45.56 154.131 45.056C153.795 44.552 153.329 44.1413 152.731 43.824C152.134 43.5067 151.453 43.236 150.687 43.012C149.941 42.7693 149.147 42.508 148.307 42.228C146.795 41.7053 145.685 41.0613 144.975 40.296C144.266 39.5307 143.902 38.5507 143.883 37.356C143.883 36.3293 144.117 35.424 144.583 34.64C145.069 33.8373 145.769 33.212 146.683 32.764C147.598 32.2973 148.681 32.064 149.931 32.064C151.145 32.064 152.199 32.2973 153.095 32.764C154.01 33.212 154.719 33.8467 155.223 34.668C155.727 35.4707 155.979 36.3947 155.979 37.44H153.963C153.963 36.8427 153.805 36.264 153.487 35.704C153.189 35.1253 152.731 34.6587 152.115 34.304C151.518 33.9307 150.753 33.744 149.819 33.744C149.054 33.744 148.373 33.884 147.775 34.164C147.197 34.4253 146.739 34.8173 146.403 35.34C146.067 35.844 145.899 36.4413 145.899 37.132C145.899 37.804 146.049 38.3547 146.347 38.784C146.646 39.2133 147.066 39.568 147.607 39.848C148.149 40.128 148.783 40.3893 149.511 40.632C150.239 40.856 151.051 41.1173 151.947 41.416C152.862 41.7333 153.674 42.116 154.383 42.564C155.093 43.012 155.653 43.5907 156.063 44.3C156.474 44.9907 156.679 45.868 156.679 46.932C156.679 47.8467 156.437 48.724 155.951 49.564C155.485 50.3853 154.766 51.0573 153.795 51.58C152.825 52.084 151.611 52.336 150.155 52.336Z"
+              fill="currentColor"
+            ></path></svg
+        ></a>
+      </div>
+    </header>
+    <main class="main">
+      <div class="hero">
+        <div class="hero-content">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span
+            ><span>Momentarily down for maintenance</span>
+          </div>
+          <h1 class="hero-title">Down for maintenance. Sorry!</h1>
+          <p class="hero-description">
+            <b style="color: #262626">The Stacks</b> is temporarily unavailable
+            while we perform upgrades to our system. This page will
+            automatically refresh when we are back online. If you still see this
+            after a few minutes, try reloading the page manually.
+          </p>
+          <div class="status-row">
+            <div>Checking our servers...</div>
+            <span class="status-dots"
+              ><i class="status-dot"></i
+              ><i class="status-dot status-dot--delay-1"></i
+              ><i class="status-dot status-dot--delay-2"></i
+            ></span>
+          </div>
+          <div class="divider"></div>
+          <p class="contact-line">
+            Questions?
+            <a href="mailto:stacks@astera.org" class="link-hover"
+              >stacks@astera.org</a
+            >
+          </p>
+        </div>
+      </div>
+    </main>
+    <section
+      aria-label="Notifications alt+T"
+      tabindex="-1"
+      aria-live="polite"
+      aria-relevant="additions text"
+      aria-atomic="false"
+    ></section>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-row">
+          <a aria-label="Home" href="/" data-discover="true"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="158"
+              height="56"
+              viewBox="0 0 158 56"
+              fill="none"
+              aria-hidden="true"
+              class="footer-logo"
+            >
+              <path
+                d="M26.7426 2.74316H25.2559V53.2564H26.7426V2.74316Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M51.2554 27.2568H0.742188V28.7436H51.2554V27.2568Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M50.885 12.7763L0.373047 41.9395L1.11644 43.227L51.6284 14.0639L50.885 12.7763Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M52 54H0V2H52V54ZM1.48678 52.5133H50.5132V3.48678H1.48678V52.5133Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M66.748 24V6.024H60.868V4.4H74.588V6.024H68.708V24H66.748ZM90.2052 24V4.4H92.1652V24H90.2052ZM77.6332 24V4.4H79.5932V24H77.6332ZM79.1452 14.844V13.22H90.7652V14.844H79.1452ZM96.5278 24V4.4H108.428V6.024H98.4878V13.332H107.588V14.956H98.4878V22.376H108.428V24H96.5278ZM68.288 52.336C66.8507 52.336 65.6 52.0747 64.536 51.552C63.4907 51.0293 62.688 50.3013 62.128 49.368C61.568 48.416 61.288 47.3333 61.288 46.12H63.332C63.332 46.9413 63.5187 47.6973 63.892 48.388C64.2653 49.0787 64.816 49.6387 65.544 50.068C66.272 50.4787 67.1867 50.684 68.288 50.684C69.2587 50.684 70.0707 50.5253 70.724 50.208C71.396 49.872 71.9093 49.4333 72.264 48.892C72.6187 48.3507 72.796 47.7347 72.796 47.044C72.796 46.2227 72.6187 45.56 72.264 45.056C71.928 44.552 71.4613 44.1413 70.864 43.824C70.2667 43.5067 69.5853 43.236 68.82 43.012C68.0733 42.7693 67.28 42.508 66.44 42.228C64.928 41.7053 63.8173 41.0613 63.108 40.296C62.3987 39.5307 62.0347 38.5507 62.016 37.356C62.016 36.3293 62.2493 35.424 62.716 34.64C63.2013 33.8373 63.9013 33.212 64.816 32.764C65.7307 32.2973 66.8133 32.064 68.064 32.064C69.2773 32.064 70.332 32.2973 71.228 32.764C72.1427 33.212 72.852 33.8467 73.356 34.668C73.86 35.4707 74.112 36.3947 74.112 37.44H72.096C72.096 36.8427 71.9373 36.264 71.62 35.704C71.3213 35.1253 70.864 34.6587 70.248 34.304C69.6507 33.9307 68.8853 33.744 67.952 33.744C67.1867 33.744 66.5053 33.884 65.908 34.164C65.3293 34.4253 64.872 34.8173 64.536 35.34C64.2 35.844 64.032 36.4413 64.032 37.132C64.032 37.804 64.1813 38.3547 64.48 38.784C64.7787 39.2133 65.1987 39.568 65.74 39.848C66.2813 40.128 66.916 40.3893 67.644 40.632C68.372 40.856 69.184 41.1173 70.08 41.416C70.9947 41.7333 71.8067 42.116 72.516 42.564C73.2253 43.012 73.7853 43.5907 74.196 44.3C74.6067 44.9907 74.812 45.868 74.812 46.932C74.812 47.8467 74.5693 48.724 74.084 49.564C73.6173 50.3853 72.8987 51.0573 71.928 51.58C70.9573 52.084 69.744 52.336 68.288 52.336ZM82.3339 52V34.024H76.4539V32.4H90.1739V34.024H84.2939V52H82.3339ZM89.717 52L96.941 32.4H98.957L106.181 52H104.109L97.949 34.976L91.761 52H89.717ZM93.021 46.708L93.609 45.084H102.261L102.849 46.708H93.021ZM116.576 52.336C114.691 52.336 113.058 51.916 111.676 51.076C110.295 50.2173 109.231 49.032 108.484 47.52C107.738 45.9893 107.364 44.216 107.364 42.2C107.364 40.184 107.738 38.42 108.484 36.908C109.231 35.3773 110.295 34.192 111.676 33.352C113.076 32.4933 114.71 32.064 116.576 32.064C118.779 32.064 120.562 32.5867 121.924 33.632C123.306 34.6587 124.192 36.1147 124.584 38H122.428C122.13 36.7307 121.495 35.7133 120.524 34.948C119.554 34.164 118.238 33.772 116.576 33.772C115.139 33.772 113.879 34.108 112.796 34.78C111.714 35.452 110.874 36.4227 110.276 37.692C109.679 38.9427 109.38 40.4453 109.38 42.2C109.38 43.9547 109.679 45.4667 110.276 46.736C110.874 47.9867 111.714 48.948 112.796 49.62C113.879 50.292 115.139 50.628 116.576 50.628C118.238 50.628 119.544 50.2453 120.496 49.48C121.467 48.7147 122.111 47.7067 122.428 46.456H124.584C124.174 48.304 123.287 49.7507 121.924 50.796C120.58 51.8227 118.798 52.336 116.576 52.336ZM128.137 52V32.4H130.097V41.584L138.581 32.4H141.073L133.765 40.24L141.157 52H138.777L132.365 41.752L130.097 44.16V52H128.137ZM150.155 52.336C148.718 52.336 147.467 52.0747 146.403 51.552C145.358 51.0293 144.555 50.3013 143.995 49.368C143.435 48.416 143.155 47.3333 143.155 46.12H145.199C145.199 46.9413 145.386 47.6973 145.759 48.388C146.133 49.0787 146.683 49.6387 147.411 50.068C148.139 50.4787 149.054 50.684 150.155 50.684C151.126 50.684 151.938 50.5253 152.591 50.208C153.263 49.872 153.777 49.4333 154.131 48.892C154.486 48.3507 154.663 47.7347 154.663 47.044C154.663 46.2227 154.486 45.56 154.131 45.056C153.795 44.552 153.329 44.1413 152.731 43.824C152.134 43.5067 151.453 43.236 150.687 43.012C149.941 42.7693 149.147 42.508 148.307 42.228C146.795 41.7053 145.685 41.0613 144.975 40.296C144.266 39.5307 143.902 38.5507 143.883 37.356C143.883 36.3293 144.117 35.424 144.583 34.64C145.069 33.8373 145.769 33.212 146.683 32.764C147.598 32.2973 148.681 32.064 149.931 32.064C151.145 32.064 152.199 32.2973 153.095 32.764C154.01 33.212 154.719 33.8467 155.223 34.668C155.727 35.4707 155.979 36.3947 155.979 37.44H153.963C153.963 36.8427 153.805 36.264 153.487 35.704C153.189 35.1253 152.731 34.6587 152.115 34.304C151.518 33.9307 150.753 33.744 149.819 33.744C149.054 33.744 148.373 33.884 147.775 34.164C147.197 34.4253 146.739 34.8173 146.403 35.34C146.067 35.844 145.899 36.4413 145.899 37.132C145.899 37.804 146.049 38.3547 146.347 38.784C146.646 39.2133 147.066 39.568 147.607 39.848C148.149 40.128 148.783 40.3893 149.511 40.632C150.239 40.856 151.051 41.1173 151.947 41.416C152.862 41.7333 153.674 42.116 154.383 42.564C155.093 43.012 155.653 43.5907 156.063 44.3C156.474 44.9907 156.679 45.868 156.679 46.932C156.679 47.8467 156.437 48.724 155.951 49.564C155.485 50.3853 154.766 51.0573 153.795 51.58C152.825 52.084 151.611 52.336 150.155 52.336Z"
+                fill="currentColor"
+              ></path></svg
+          ></a>
+          <div class="footer-right">
+            <nav aria-label="Footer" class="footer-nav">
+              <ul>
+                <li>
+                  <a class="link-hover" href="/about" data-discover="true"
+                    >About</a
+                  >
+                </li>
+                <li>
+                  <a class="link-hover" href="/terms" data-discover="true"
+                    >Terms of use</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="link-hover"
+                    href="/privacy-policy"
+                    data-discover="true"
+                    >Privacy policy</a
+                  >
+                </li>
+                <li>
+                  <button type="button" class="privacy-button">
+                    <span class="link-hover">Your privacy choices</span
+                    ><svg
+                      viewBox="0 0 29 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      height="16"
+                    >
+                      <path
+                        d="M4.29152 6.18991C4.01676 6.42543 3.99059 6.83758 4.2261 7.11234L7.39246 10.7497L11.7756 4.08991C11.9719 3.78898 11.8934 3.38337 11.5859 3.18057C11.285 2.98431 10.8794 3.06281 10.6766 3.37029L7.24199 8.59085L5.20741 6.25533C4.9719 5.98057 4.55975 5.9544 4.28498 6.18991H4.29152Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M22.0075 0H7C3.14019 0 0 3.14019 0 7C0 10.8598 3.14019 14 7 14H22.0075C25.8673 14 29.0075 10.8598 29.0075 7C29.0075 3.14019 25.8673 0 22.0075 0ZM10.7093 12.6916H7C3.85981 12.6916 1.30841 10.1402 1.30841 7C1.30841 3.85981 3.85981 1.30841 7 1.30841H15.6813L10.7159 12.6916H10.7093ZM24.7813 9.80654C25.0364 10.0617 25.0364 10.4738 24.7813 10.729C24.6505 10.8598 24.4869 10.9187 24.3168 10.9187C24.1467 10.9187 23.9832 10.8533 23.8523 10.729L21.0458 7.92243L18.2393 10.729C18.1084 10.8598 17.9449 10.9187 17.7748 10.9187C17.6047 10.9187 17.4411 10.8533 17.3103 10.729C17.0551 10.4738 17.0551 10.0617 17.3103 9.80654L20.1168 7L17.3103 4.19346C17.0551 3.93832 17.0551 3.52617 17.3103 3.27103C17.5654 3.01589 17.9776 3.01589 18.2327 3.27103L21.0393 6.07757L23.8458 3.27103C24.1009 3.01589 24.5131 3.01589 24.7682 3.27103C25.0234 3.52617 25.0234 3.93832 24.7682 4.19346L21.9617 7L24.7682 9.80654H24.7813Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+            <div>
+              © <span id="c-year">2026</span> Astera Institute. All rights
+              reserved.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      function checkHealth() {
+        fetch("/api/health")
+          .then(async (response) => {
+            if (response.status === 200) {
+              response = await response.json();
+              if (response.status === "ok") {
+                window.location.reload();
+              }
+            }
+          })
+          .catch(() => {});
+      }
+      setInterval(checkHealth, 10_000 + 4_000 * Math.random());
+
+      document.getElementById("c-year").innerText = new Date().getFullYear();
+    </script>
+  </body>
+</html>
